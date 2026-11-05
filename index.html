@@ -66,7 +66,10 @@
         <a href="#free-starter" class="text-emerald-300 hover:text-emerald-200 transition">★ Free Starter Pack</a>
         <a href="#faq" class="hover:text-amber-300 transition">FAQ</a>
       </nav>
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-2.5">
+        <a href="https://www.youtube.com/@mochaloficat?sub_confirmation=1" target="_blank" class="px-3.5 py-2.5 rounded-xl text-xs font-extrabold bg-red-600 hover:bg-red-500 text-white transition shadow-lg shadow-red-600/25">
+          ▶ Subscribe (@mochaloficat)
+        </a>
         <a href="#pricing" class="px-4 py-2.5 rounded-xl text-xs font-extrabold bg-gradient-to-r from-amber-400 to-amber-300 text-slate-950 hover:brightness-110 transition shadow-lg shadow-amber-500/20">
           Get Complete Vault — $29
         </a>
@@ -729,7 +732,8 @@ if bal >= 100:  # 2 simultaneous requests both read $100!
       } catch (_) {}
       const msg = document.getElementById('free-dl-msg');
       msg.classList.remove('hidden');
-      msg.innerHTML = "✅ Downloading Free Starter Pack! Ready for all 30 Blueprints + 50 Tracks? <a href='#pricing' class='underline font-bold text-amber-300'>Get the Complete Bundle ($29) →</a>";
+      msg.innerHTML = "✓ Downloading Free Starter Pack! Don't forget to <a href='https://www.youtube.com/@mochaloficat?sub_confirmation=1' target='_blank' class='underline font-bold text-red-400'>Subscribe to @mochaloficat on YouTube →</a> or <a href='#pricing' class='underline font-bold text-amber-300'>Get the Complete Bundle ($29) →</a>";
+      window.open("https://www.youtube.com/@mochaloficat?sub_confirmation=1", "_blank");
       window.location.href = RELEASE_BASE + "Product_0_FREE_Starter_Pack_Lead_Magnet.zip";
     }
 
