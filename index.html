@@ -5,518 +5,949 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MochaCat Studio (@mochaloficat) — The Senior System Design Playbook & 50-Track Royalty-Free Lo-Fi Vault</title>
   <meta name="description" content="30 Visual Senior System Design & Production Code Blueprints (PDF + 30 Scripts + 30 HD Cards) + 50 Studio-Mastered 100% DMCA-Safe Royalty-Free Lo-Fi & City Pop Tracks." />
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
-    body {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: #06080d;
-      color: #f4f1ea;
-      background-image:
-        radial-gradient(circle at 15% 10%, rgba(245, 158, 11, 0.08), transparent 35%),
-        radial-gradient(circle at 85% 20%, rgba(16, 185, 129, 0.07), transparent 35%),
-        radial-gradient(circle at 50% 80%, rgba(99, 102, 241, 0.06), transparent 40%);
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              dark: '#07090e',
+              card: '#0d121f',
+              border: 'rgba(255, 255, 255, 0.08)',
+              amber: '#f59e0b',
+              emerald: '#10b981',
+            }
+          },
+          keyframes: {
+            'spin-slow': {
+              'from': { transform: 'rotate(0deg)' },
+              'to': { transform: 'rotate(360deg)' }
+            },
+            'wave-bar': {
+              '0%, 100%': { height: '4px' },
+              '50%': { height: '18px' }
+            },
+            'pulse-subtle': {
+              '0%, 100%': { opacity: 1 },
+              '50%': { opacity: 0.5 }
+            }
+          },
+          animation: {
+            'spin-slow': 'spin-slow 9s linear infinite',
+            'wave-1': 'wave-bar 0.8s ease-in-out infinite',
+            'wave-2': 'wave-bar 0.6s ease-in-out infinite 0.15s',
+            'wave-3': 'wave-bar 1.0s ease-in-out infinite 0.3s',
+            'wave-4': 'wave-bar 0.7s ease-in-out infinite 0.2s',
+            'wave-5': 'wave-bar 0.9s ease-in-out infinite 0.4s',
+          }
+        }
+      }
     }
-    .font-mono { font-family: 'JetBrains Mono', monospace; }
+  </script>
+
+  <style>
+    body {
+      background-color: #07090e;
+      color: #f3f4f6;
+      background-image:
+        radial-gradient(circle at 18% 8%, rgba(245, 158, 11, 0.09), transparent 38%),
+        radial-gradient(circle at 82% 16%, rgba(16, 185, 129, 0.08), transparent 36%),
+        radial-gradient(circle at 50% 70%, rgba(99, 102, 241, 0.07), transparent 45%);
+    }
+
     .glass-card {
-      background: rgba(15, 19, 29, 0.78);
-      backdrop-filter: blur(16px);
+      background: rgba(13, 18, 31, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
-    .gold-border-glow {
-      box-shadow: 0 0 50px -10px rgba(245, 158, 11, 0.28), inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
+
+    .glass-card-hover {
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    @keyframes spin-slow {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
+    .glass-card-hover:hover {
+      background: rgba(18, 25, 43, 0.85);
+      border-color: rgba(255, 255, 255, 0.16);
+      transform: translateY(-2px);
     }
-    .vinyl-spin { animation: spin-slow 9s linear infinite; }
-    .vinyl-paused { animation-play-state: paused; }
+
+    .hero-glow {
+      box-shadow: 0 0 80px -20px rgba(245, 158, 11, 0.25);
+    }
+
+    .bundle-glow {
+      box-shadow: 0 0 60px -15px rgba(245, 158, 11, 0.35), inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+    }
+
+    /* Custom subtle scrollbar */
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #07090e;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.18);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.28);
+    }
+
+    /* Syntax theme colors */
+    .syn-kw { color: #c678dd; font-weight: 600; }     /* purple */
+    .syn-fn { color: #61afef; }                        /* blue */
+    .syn-str { color: #98c379; }                       /* green */
+    .syn-num { color: #d19a66; }                       /* orange */
+    .syn-cmt { color: #6b7280; font-style: italic; }   /* gray comment */
+    .syn-var { color: #e5c07b; }                       /* yellow */
+    .syn-punct { color: #abb2bf; }                     /* soft gray */
+
+    .vinyl-paused { animation-play-state: paused !important; }
   </style>
 </head>
-<body class="min-h-screen antialiased selection:bg-amber-400 selection:text-slate-950">
+<body class="min-h-screen antialiased selection:bg-amber-400 selection:text-slate-950 font-sans">
 
-  <!-- Top Launch Bar -->
-  <div class="bg-gradient-to-r from-amber-500/15 via-emerald-500/15 to-amber-500/15 border-b border-white/10 py-2.5 px-4 text-center text-xs font-medium">
-    <span class="inline-flex items-center gap-2">
-      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-      <span class="text-amber-300 font-bold uppercase tracking-wider">2026 Launch Offer:</span>
-      <span class="text-slate-200">Save <strong>$14</strong> on the <strong>Complete Code & Chill Pro Bundle</strong> (30 System Design Blueprints + 50 DMCA-Safe Lo-Fi Tracks) —</span>
-      <a href="#pricing" class="underline text-emerald-300 font-bold hover:text-emerald-200">Claim for $29 →</a>
-    </span>
-  </div>
+  <!-- ============================================================== -->
+  <!-- 1. TOP ANNOUNCEMENT BANNER                                     -->
+  <!-- ============================================================== -->
+  <aside aria-label="Announcement" class="bg-gradient-to-r from-amber-500/15 via-emerald-500/15 to-amber-500/15 border-b border-white/10 py-2.5 px-4">
+    <div class="max-w-7xl mx-auto flex items-center justify-center gap-2 text-xs sm:text-sm text-center">
+      <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-400/20 text-emerald-300 font-mono text-[11px] font-bold uppercase tracking-wider">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+        2026 Special
+      </span>
+      <span class="text-slate-300 hidden sm:inline">Save $14 on the Complete Code & Chill Pro Bundle —</span>
+      <span class="text-slate-200 font-semibold sm:font-normal">Get all 30 Blueprints + 50 Tracks for <strong class="text-amber-300 font-bold">$29</strong></span>
+      <a href="#pricing" class="inline-flex items-center gap-1 font-bold text-amber-300 hover:text-amber-200 underline ml-1 transition">
+        Claim Offer <span aria-hidden="true">&rarr;</span>
+      </a>
+    </div>
+  </aside>
 
-  <!-- Sticky Navbar -->
-  <header class="sticky top-0 z-40 backdrop-blur-xl bg-[#06080d]/85 border-b border-white/10">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-      <a href="https://www.youtube.com/@mochaloficat" target="_blank" class="flex items-center gap-3 group">
-        <img src="assets/art_bossa.png" alt="MochaCat" class="w-10 h-10 rounded-xl object-cover border border-amber-400/50 shadow-md" />
+  <!-- ============================================================== -->
+  <!-- 2. STICKY NAVBAR                                               -->
+  <!-- ============================================================== -->
+  <header class="sticky top-0 z-40 backdrop-blur-xl bg-[#07090e]/85 border-b border-white/10 transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="https://www.youtube.com/@mochaloficat" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 group">
+        <div class="relative">
+          <img src="assets/art_bossa.png" alt="MochaCat Studio Logo" class="w-10 h-10 rounded-xl object-cover border border-amber-400/50 shadow-md group-hover:scale-105 transition" />
+          <span class="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-emerald-500 border-2 border-[#07090e] rounded-full" title="Verified Creator"></span>
+        </div>
         <div>
-          <div class="font-extrabold text-base tracking-tight flex items-center gap-2">
+          <div class="font-extrabold text-sm sm:text-base tracking-tight flex items-center gap-2 text-white">
             <span>MochaCat Studio</span>
-            <span class="text-xs px-2 py-0.5 rounded-md bg-amber-400/15 text-amber-300 font-mono border border-amber-400/30">@mochaloficat</span>
+            <span class="text-[11px] px-1.5 py-0.2 rounded bg-amber-400/15 text-amber-300 font-mono border border-amber-400/30">@mochaloficat</span>
           </div>
-          <div class="text-xs text-slate-400">107+ Original Videos • System Design & Lo-Fi Label</div>
+          <div class="text-[11px] text-slate-400 flex items-center gap-1.5">
+            <span>107+ Videos</span>
+            <span>•</span>
+            <span class="text-slate-400">System Design & Lo-Fi Vault</span>
+          </div>
         </div>
       </a>
-      <nav class="hidden md:flex items-center gap-6 text-xs font-semibold text-slate-300">
-        <a href="#inside-playbook" class="hover:text-amber-300 transition">Inside the Playbook</a>
-        <a href="#audio-deck" class="hover:text-amber-300 transition">50-Track Audio Deck</a>
-        <a href="#whats-included" class="hover:text-amber-300 transition">What's Inside</a>
-        <a href="#free-starter" class="text-emerald-300 hover:text-emerald-200 transition">★ Free Starter Pack</a>
-        <a href="#faq" class="hover:text-amber-300 transition">FAQ</a>
-      </nav>
-      <div class="flex items-center gap-2.5">
-        <a href="https://www.youtube.com/@mochaloficat?sub_confirmation=1" target="_blank" class="px-3.5 py-2.5 rounded-xl text-xs font-extrabold bg-red-600 hover:bg-red-500 text-white transition shadow-lg shadow-red-600/25">
-          ▶ Subscribe (@mochaloficat)
+
+      <!-- Desktop Nav Items -->
+      <nav class="hidden lg:flex items-center gap-6 text-xs font-semibold text-slate-300">
+        <a href="#inside-playbook" class="hover:text-amber-300 transition py-1">Playbook Blueprints</a>
+        <a href="#audio-deck" class="hover:text-amber-300 transition py-1">Audio Deck</a>
+        <a href="#whats-included" class="hover:text-amber-300 transition py-1">What's Inside</a>
+        <a href="#free-starter" class="text-emerald-400 hover:text-emerald-300 transition py-1 flex items-center gap-1 font-bold">
+          <span>★</span> Free Sample Pack
         </a>
-        <a href="#pricing" class="px-4 py-2.5 rounded-xl text-xs font-extrabold bg-gradient-to-r from-amber-400 to-amber-300 text-slate-950 hover:brightness-110 transition shadow-lg shadow-amber-500/20">
+        <a href="#faq" class="hover:text-amber-300 transition py-1">FAQ</a>
+      </nav>
+
+      <!-- Desktop Actions -->
+      <div class="hidden sm:flex items-center gap-3">
+        <!-- YouTube Subscribe Button -->
+        <a href="https://www.youtube.com/@mochaloficat?sub_confirmation=1" target="_blank" rel="noopener noreferrer" 
+           class="inline-flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold text-white bg-red-600/90 hover:bg-red-600 border border-red-500/40 shadow-sm shadow-red-950/50 hover:shadow-red-600/30 transition">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+          </svg>
+          <span>Subscribe</span>
+        </a>
+
+        <!-- Main Vault CTA -->
+        <a href="#pricing" 
+           class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-extrabold bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-400 text-slate-950 hover:brightness-110 shadow-md shadow-amber-500/25 transition">
+          <span>Get Vault</span>
+          <span class="text-slate-900 font-bold opacity-75">—</span>
+          <span>$29</span>
+        </a>
+      </div>
+
+      <!-- Mobile Hamburger Button -->
+      <button onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-xl glass-card text-slate-300 hover:text-white" aria-label="Toggle navigation menu">
+        <svg id="menu-icon-open" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
+        </svg>
+        <svg id="menu-icon-close" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+
+    </div>
+
+    <!-- Mobile Slide Menu -->
+    <div id="mobile-menu" class="hidden lg:hidden border-t border-white/10 px-6 py-5 space-y-4 bg-[#07090e]/95 backdrop-blur-2xl">
+      <nav class="flex flex-col space-y-3 text-sm font-semibold">
+        <a href="#inside-playbook" onclick="toggleMobileMenu()" class="text-slate-300 hover:text-amber-300">Playbook Blueprints</a>
+        <a href="#audio-deck" onclick="toggleMobileMenu()" class="text-slate-300 hover:text-amber-300">Audio Deck</a>
+        <a href="#whats-included" onclick="toggleMobileMenu()" class="text-slate-300 hover:text-amber-300">What's Inside</a>
+        <a href="#free-starter" onclick="toggleMobileMenu()" class="text-emerald-400 font-bold">★ Free Sample Pack</a>
+        <a href="#faq" onclick="toggleMobileMenu()" class="text-slate-300 hover:text-amber-300">FAQ</a>
+      </nav>
+      <div class="pt-3 border-t border-white/10 flex flex-col gap-2.5">
+        <a href="https://www.youtube.com/@mochaloficat?sub_confirmation=1" target="_blank" rel="noopener noreferrer" 
+           class="w-full text-center py-2.5 rounded-xl text-xs font-bold text-white bg-red-600 hover:bg-red-500 transition">
+          ▶ Subscribe to @mochaloficat
+        </a>
+        <a href="#pricing" onclick="toggleMobileMenu()" 
+           class="w-full text-center py-3 rounded-xl text-xs font-extrabold bg-gradient-to-r from-amber-400 to-amber-300 text-slate-950 transition">
           Get Complete Vault — $29
         </a>
       </div>
     </div>
   </header>
 
-  <!-- HERO SECTION (Inspired by ShipFast + ByteByteGo) -->
-  <section class="max-w-7xl mx-auto px-6 pt-12 pb-16 lg:pt-16 lg:pb-20">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+  <!-- ============================================================== -->
+  <!-- 3. HERO SECTION (Refined Layout & Visual Weight)               -->
+  <!-- ============================================================== -->
+  <section class="relative max-w-7xl mx-auto px-4 sm:px-6 pt-10 sm:pt-14 pb-16 lg:pb-24">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
 
-      <!-- Left Column: High-Converting Copy -->
+      <!-- Left Column: Copy & Actions -->
       <div class="lg:col-span-7 space-y-6">
-        <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-amber-300">
-          <span>⚡ THE OFFICIAL @MOCHALOFICAT DEVELOPER & CREATOR VAULT</span>
+        
+        <!-- Badge -->
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-400/10 border border-amber-400/25 text-xs font-mono text-amber-300">
+          <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+          <span>THE OFFICIAL @MOCHALOFICAT DEVELOPER & CREATOR VAULT</span>
         </div>
 
-        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.08] text-white">
-          Write <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-amber-400 to-orange-400">Senior-Grade Code</span> & Ship Videos With <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-teal-400">Zero Copyright Strikes.</span>
+        <!-- Headline -->
+        <h1 class="text-3xl sm:text-5xl lg:text-[54px] font-extrabold tracking-tight leading-[1.12] text-white">
+          Write <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-amber-400 to-orange-400">Senior-Grade Code</span> & Ship Videos With <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-teal-300 to-cyan-400">Zero Copyright Strikes.</span>
         </h1>
 
-        <p class="text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl">
-          Stop memorizing dry 600-page textbooks or risking DMCA strikes on your streams. Get all <strong>30 Visual System Design & Bug-Fix Blueprints</strong> (<code>[X] JUNIOR BUG</code> vs <code>[OK] SENIOR FIX</code>), an <strong>18-Page Engineering Playbook (PDF + MD)</strong>, <strong>30 Runnable Python/SQL Scripts</strong>, and <strong>50 Studio-Mastered (-14 LUFS) Royalty-Free Lo-Fi & City Pop Tracks</strong>.
+        <!-- Subheading -->
+        <p class="text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl font-normal">
+          Stop memorizing dry 600-page textbooks or paying endless music subscriptions. Master real backend production fixes side-by-side with <strong>30 Visual System Design Blueprints</strong>, and soundtrack your videos with <strong>50 Studio-Mastered Lo-Fi & City Pop tracks</strong> with 100% DMCA-safe commercial clearance.
         </p>
 
-        <!-- Value Stack Bullets -->
-        <div class="space-y-2.5 pt-1 text-sm text-slate-200">
-          <div class="flex items-center gap-3">
-            <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs font-bold">✓</span>
-            <span><strong>30 Production Architectures & Bug Fixes:</strong> IEEE-754, HashMaps, B-Trees, Row Locks, JWT vs HttpOnly, Docker Multi-Stage, GIL, epoll, Kafka, Passkeys, RAG, UUIDv7, Redis, Bloom Filters, Consistent Hashing & Zero-Copy.</span>
+        <!-- Feature Badges Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+          <div class="p-3 rounded-2xl glass-card border border-white/10 flex items-start gap-3">
+            <span class="w-6 h-6 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">✓</span>
+            <div class="text-xs">
+              <strong class="text-white block font-semibold">30 Architecture Blueprints</strong>
+              <span class="text-slate-400">Row locks, B-Trees, Zero-Copy, RAG & GIL</span>
+            </div>
           </div>
-          <div class="flex items-center gap-3">
-            <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs font-bold">✓</span>
-            <span><strong>50 Full-Length 320kbps MP3 Tracks + 20 1080p Wallpapers:</strong> Bossa Nova Cafe, 80s Shibuya City Pop, Deep Coding Synth & 2AM Sleep Lofi.</span>
+          <div class="p-3 rounded-2xl glass-card border border-white/10 flex items-start gap-3">
+            <span class="w-6 h-6 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">✓</span>
+            <div class="text-xs">
+              <strong class="text-white block font-semibold">50 Studio MP3 Tracks</strong>
+              <span class="text-slate-400">Bossa, 80s City Pop, Deep Synth & 2AM Sleep</span>
+            </div>
           </div>
-          <div class="flex items-center gap-3">
-            <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs font-bold">✓</span>
-            <span><strong>Perpetual DMCA-Safe Commercial License (PDF):</strong> 100% cleared for monetized YouTube channels, Shorts, Twitch, TikTok & client work.</span>
+          <div class="p-3 rounded-2xl glass-card border border-white/10 flex items-start gap-3">
+            <span class="w-6 h-6 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">✓</span>
+            <div class="text-xs">
+              <strong class="text-white block font-semibold">Perpetual DMCA License</strong>
+              <span class="text-slate-400">Cleared for YouTube, Twitch, TikTok & Clients</span>
+            </div>
           </div>
         </div>
 
         <!-- CTA Buttons -->
-        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-3">
-          <a href="#pricing" class="px-8 py-4 rounded-2xl font-extrabold text-sm bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-400 text-slate-950 hover:brightness-105 transition text-center shadow-xl shadow-amber-500/20">
-            ★ Get Complete Pro Bundle — $29 <span class="line-through opacity-60 font-normal ml-1">$43</span> →
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 pt-2">
+          <a href="#pricing" class="px-7 py-4 rounded-2xl font-extrabold text-sm bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-400 text-slate-950 hover:brightness-105 shadow-xl shadow-amber-500/20 transition text-center flex items-center justify-center gap-2">
+            <span>★ Get Complete Pro Bundle — $29</span>
+            <span class="line-through text-slate-800 text-xs font-normal opacity-70">$43</span>
+            <span aria-hidden="true">&rarr;</span>
           </a>
-          <a href="#free-starter" class="px-7 py-4 rounded-2xl font-bold text-sm glass-card hover:bg-white/10 text-white transition text-center">
+          <a href="#free-starter" class="px-6 py-4 rounded-2xl font-bold text-sm glass-card hover:bg-white/10 text-white transition text-center border border-white/15">
             ↓ Grab Free Starter Pack ($0)
           </a>
         </div>
 
-        <!-- Micro Trust Proof -->
-        <div class="pt-3 flex flex-wrap items-center gap-6 text-xs text-slate-400 border-t border-white/10">
-          <div class="flex items-center gap-2">
+        <!-- Trust Badges -->
+        <div class="pt-3 flex flex-wrap items-center gap-y-2 gap-x-5 text-xs text-slate-400 border-t border-white/10">
+          <div class="flex items-center gap-1.5">
             <span class="text-amber-400">★★★★★</span>
-            <span>Built for Engineers, Tech Leads & Creators</span>
+            <span class="text-slate-300 font-medium">Rated 5.0 by Engineers & Creators</span>
           </div>
-          <div>⚡ Instant ZIP + PDF Download (485 MB CDN)</div>
-          <div>🔒 One-Time Payment • Lifetime Updates</div>
+          <div class="flex items-center gap-1.5">
+            <span class="text-emerald-400">⚡</span>
+            <span>Instant ZIP + PDF CDN Access</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <span class="text-slate-400">🔒</span>
+            <span>Lifetime License & Updates</span>
+          </div>
         </div>
+
       </div>
 
-      <!-- Right Column: Interactive Hero Bento Showcase -->
+      <!-- Right Column: Interactive Code IDE + Custom Music Vinyl Player -->
       <div class="lg:col-span-5 space-y-4">
-
-        <!-- Interactive IDE Card -->
-        <div class="glass-card rounded-2xl overflow-hidden border border-white/15 shadow-2xl">
-          <div class="bg-[#0d111a] px-4 py-3 border-b border-white/10 flex items-center justify-between">
+        
+        <!-- 1. Interactive IDE Card with Syntax Highlighting -->
+        <div class="glass-card rounded-3xl overflow-hidden border border-white/15 shadow-2xl">
+          <!-- Terminal Header -->
+          <div class="bg-[#0b0f19] px-4 py-3 border-b border-white/10 flex items-center justify-between">
             <div class="flex items-center gap-2">
-              <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
-              <span class="w-3 h-3 rounded-full bg-amber-400/80"></span>
-              <span class="w-3 h-3 rounded-full bg-emerald-500/80"></span>
-              <span class="ml-2 text-xs font-mono text-slate-400">09_bank_race_condition.py — One Dark Pro</span>
+              <span class="w-3 h-3 rounded-full bg-red-500/80 inline-block"></span>
+              <span class="w-3 h-3 rounded-full bg-amber-400/80 inline-block"></span>
+              <span class="w-3 h-3 rounded-full bg-emerald-500/80 inline-block"></span>
+              <span id="hero-ide-tab" class="ml-2 text-xs font-mono text-slate-400">09_bank_race_condition.py</span>
             </div>
-            <span class="px-2 py-0.5 rounded bg-amber-400/15 text-amber-300 font-mono text-xs">CHAPTER #09/30</span>
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded bg-amber-400/15 text-amber-300 font-mono text-[11px] font-bold">CHAPTER #09/30</span>
+            </div>
           </div>
-          <div class="p-5 space-y-3 font-mono text-xs">
-            <div class="p-3 rounded-xl bg-red-950/35 border border-red-500/30">
-              <div class="text-red-400 font-bold mb-1">[X] JUNIOR BUG — Double Withdrawal Race Condition 💥</div>
-              <pre class="text-slate-200 overflow-x-auto">bal = db.get("SELECT bal FROM accts WHERE id=1")
-if bal >= 100:  # 2 simultaneous requests both read $100!
-    db.exec("UPDATE accts SET bal = bal - 100 WHERE id=1")</pre>
+
+          <!-- Code Body with Syntax Colors -->
+          <div class="p-4 sm:p-5 space-y-3 font-mono text-xs">
+            
+            <!-- Junior Bug Box -->
+            <div class="p-3.5 rounded-2xl bg-red-950/30 border border-red-500/30 space-y-1.5">
+              <div class="flex items-center justify-between text-[11px] text-red-400 font-bold uppercase tracking-wider">
+                <span>[X] JUNIOR BUG — Race Condition</span>
+                <span>💥 LOST $100</span>
+              </div>
+              <pre class="overflow-x-auto text-slate-300 leading-relaxed"><code>bal = db.<span class="syn-fn">get</span>(<span class="syn-str">"SELECT bal FROM accts WHERE id=1"</span>)
+<span class="syn-kw">if</span> bal &gt;= <span class="syn-num">100</span>:  <span class="syn-cmt"># 2 requests read simultaneously!</span>
+    db.<span class="syn-fn">exec</span>(<span class="syn-str">"UPDATE accts SET bal = bal - 100 WHERE id=1"</span>)</code></pre>
             </div>
-            <div class="p-3 rounded-xl bg-emerald-950/35 border border-emerald-500/30">
-              <div class="text-emerald-400 font-bold mb-1">[OK] SENIOR FIX — Atomic Row Lock (SELECT FOR UPDATE) ⚡</div>
-              <pre class="text-slate-200 overflow-x-auto">with db.transaction():
-    bal = db.get("SELECT bal FROM accts WHERE id=1 FOR UPDATE")
-    if bal >= 100:  # Second request waits in lock queue!
-        db.exec("UPDATE accts SET bal = bal - 100 WHERE id=1")</pre>
+
+            <!-- Senior Fix Box -->
+            <div class="p-3.5 rounded-2xl bg-emerald-950/30 border border-emerald-500/35 space-y-1.5">
+              <div class="flex items-center justify-between text-[11px] text-emerald-400 font-bold uppercase tracking-wider">
+                <span>[OK] SENIOR FIX — Atomic Row Lock</span>
+                <span>⚡ SECURE</span>
+              </div>
+              <pre class="overflow-x-auto text-slate-200 leading-relaxed"><code><span class="syn-kw">with</span> db.<span class="syn-fn">transaction</span>():
+    bal = db.<span class="syn-fn">get</span>(<span class="syn-str">"SELECT bal FROM accts WHERE id=1 FOR UPDATE"</span>)
+    <span class="syn-kw">if</span> bal &gt;= <span class="syn-num">100</span>:  <span class="syn-cmt"># Request 2 queues until lock releases!</span>
+        db.<span class="syn-fn">exec</span>(<span class="syn-str">"UPDATE accts SET bal = bal - 100 WHERE id=1"</span>)</code></pre>
             </div>
+
+          </div>
+
+          <!-- IDE Footer note -->
+          <div class="bg-[#0b0f19]/70 px-4 py-2 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-slate-400">
+            <span>Includes 30 runnable .py scripts</span>
+            <span class="text-amber-400">One Dark Pro</span>
           </div>
         </div>
 
-        <!-- Mini Vinyl Audio Deck in Hero -->
-        <div class="glass-card rounded-2xl p-4 flex items-center gap-4 border border-amber-400/30">
-          <div class="relative w-16 h-16 flex-shrink-0">
-            <img id="hero-vinyl" src="assets/art_shibuya.png" alt="Vinyl" class="w-16 h-16 rounded-full object-cover border-2 border-amber-400 vinyl-spin vinyl-paused" />
-            <div class="w-4 h-4 rounded-full bg-[#06080d] border border-amber-400 absolute inset-0 m-auto"></div>
-          </div>
-          <div class="flex-1 min-w-0">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-mono text-amber-300 uppercase">🎧 Live Vault Sample</span>
-              <span class="text-xs font-mono text-emerald-400">320kbps • -14 LUFS</span>
+        <!-- 2. Custom Sleek Hero Vinyl Player (No Ugly Native HTML5 Controls!) -->
+        <div class="glass-card rounded-3xl p-4 sm:p-5 border border-amber-400/30 shadow-xl relative overflow-hidden">
+          <div class="flex items-center gap-4">
+            
+            <!-- Vinyl Record -->
+            <div class="relative w-16 h-16 sm:w-18 sm:h-18 flex-shrink-0 cursor-pointer group" onclick="toggleHeroPlay()">
+              <img id="hero-vinyl" src="assets/art_shibuya.png" alt="Shibuya Sunset Art" 
+                   class="w-16 h-16 sm:w-18 sm:h-18 rounded-full object-cover border-2 border-amber-400/80 shadow-lg animate-spin-slow vinyl-paused group-hover:scale-105 transition" />
+              <!-- Center spindle hole -->
+              <div class="w-4 h-4 rounded-full bg-[#07090e] border-2 border-amber-400 absolute inset-0 m-auto flex items-center justify-center">
+                <div class="w-1 h-1 rounded-full bg-amber-400"></div>
+              </div>
             </div>
-            <div class="text-sm font-bold text-white truncate">Scramble Crossing — 80s Shibuya City Pop</div>
-            <audio id="hero-audio" src="assets/preview_02_citypop.mp3" preload="none" onplay="document.getElementById('hero-vinyl').classList.remove('vinyl-paused')" onpause="document.getElementById('hero-vinyl').classList.add('vinyl-paused')" controls class="w-full h-8 mt-1.5"></audio>
+
+            <!-- Track Info & Controls -->
+            <div class="flex-1 min-w-0 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-[11px] font-mono text-amber-300 font-bold uppercase tracking-wider flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                  <span>🎧 Live Vault Preview</span>
+                </span>
+                <span class="text-[11px] font-mono text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-full border border-emerald-400/20">
+                  320kbps • -14 LUFS
+                </span>
+              </div>
+
+              <div class="truncate">
+                <h4 class="text-sm font-bold text-white truncate">Scramble Crossing</h4>
+                <p class="text-xs text-slate-400 font-medium">80s Japanese City Pop • Key D • 85 BPM</p>
+              </div>
+
+              <!-- Custom Player UI -->
+              <div class="flex items-center gap-3 pt-1">
+                <!-- Play/Pause Button -->
+                <button id="hero-play-btn" onclick="toggleHeroPlay()" class="w-9 h-9 rounded-full bg-amber-400 hover:bg-amber-300 text-slate-950 flex items-center justify-center flex-shrink-0 transition shadow-md shadow-amber-400/20" aria-label="Play track">
+                  <svg id="hero-play-icon" class="w-4 h-4 fill-current ml-0.5" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  <svg id="hero-pause-icon" class="w-4 h-4 fill-current hidden" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                </button>
+
+                <!-- Scrubber / Progress -->
+                <div class="flex-1 space-y-1">
+                  <div class="w-full bg-white/10 rounded-full h-1.5 cursor-pointer relative overflow-hidden" onclick="seekHeroAudio(event)">
+                    <div id="hero-progress" class="bg-gradient-to-r from-amber-400 to-emerald-400 h-1.5 rounded-full w-0 transition-all duration-100"></div>
+                  </div>
+                  <div class="flex justify-between text-[10px] font-mono text-slate-400">
+                    <span id="hero-curr-time">0:00</span>
+                    <span id="hero-dur-time">0:30</span>
+                  </div>
+                </div>
+
+                <!-- Animated Waveform Bars (Active when playing) -->
+                <div id="hero-wave" class="flex items-end gap-1 h-5 px-1 opacity-40">
+                  <span class="w-1 bg-amber-400 rounded-full animate-wave-1"></span>
+                  <span class="w-1 bg-amber-400 rounded-full animate-wave-2"></span>
+                  <span class="w-1 bg-emerald-400 rounded-full animate-wave-3"></span>
+                  <span class="w-1 bg-emerald-400 rounded-full animate-wave-4"></span>
+                  <span class="w-1 bg-amber-400 rounded-full animate-wave-5"></span>
+                </div>
+              </div>
+
+            </div>
+
           </div>
+
+          <!-- Hidden audio element for preview -->
+          <audio id="hero-audio" src="assets/preview_02_citypop.mp3" preload="metadata"></audio>
         </div>
 
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================== -->
+  <!-- 4. STATS & SOCIAL PROOF STRIP                                  -->
+  <!-- ============================================================== -->
+  <section class="border-y border-white/10 bg-[#090d16]/60 backdrop-blur-md py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <div>
+          <div class="text-2xl sm:text-3xl font-extrabold text-white font-mono">107+</div>
+          <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold mt-1">Original Videos on YouTube</div>
+        </div>
+        <div>
+          <div class="text-2xl sm:text-3xl font-extrabold text-amber-300 font-mono">30</div>
+          <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold mt-1">System Design Blueprints</div>
+        </div>
+        <div>
+          <div class="text-2xl sm:text-3xl font-extrabold text-emerald-400 font-mono">50</div>
+          <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold mt-1">Studio Mastered Lo-Fi Tracks</div>
+        </div>
+        <div>
+          <div class="text-2xl sm:text-3xl font-extrabold text-white font-mono">100%</div>
+          <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold mt-1">DMCA-Safe Commercial License</div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- PROBLEM VS SOLUTION AGITATION (Inspired by ShipFast & Refactoring UI) -->
-  <section class="max-w-6xl mx-auto px-6 py-12">
-    <div class="text-center max-w-3xl mx-auto mb-10 space-y-3">
-      <span class="text-xs font-mono text-amber-400 uppercase tracking-widest">Why Engineers & Creators Buy This</span>
-      <h2 class="text-3xl sm:text-4xl font-extrabold text-white">
+  <!-- ============================================================== -->
+  <!-- 5. PROBLEM VS SOLUTION AGITATION                               -->
+  <!-- ============================================================== -->
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 py-16">
+    <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
+      <span class="text-xs font-mono text-amber-400 uppercase tracking-widest font-bold">Why Developers & Creators Buy This</span>
+      <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
         Stop Wasting Weeks on Theory & Subscription Traps
       </h2>
+      <p class="text-sm text-slate-400">
+        Engineers fail interviews due to real-world edge cases. Creators lose ad revenue from copyright bots. This vault solves both instantly.
+      </p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <!-- The Old Way -->
-      <div class="rounded-2xl bg-red-950/15 border border-red-500/25 p-7 space-y-4">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-red-500/20 text-red-300 text-xs font-bold">
-          ❌ THE PAINFUL WAY (WITHOUT THIS VAULT)
+      <!-- The Painful Way -->
+      <div class="rounded-3xl bg-red-950/15 border border-red-500/25 p-6 sm:p-8 space-y-5">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-red-500/20 text-red-300 text-xs font-bold font-mono">
+          ✕ THE PAINFUL OLD WAY
         </div>
-        <ul class="space-y-3 text-sm text-slate-300">
-          <li class="flex items-start gap-3"><span class="text-red-400 font-bold">✕</span> <span>Reading 600-page academic books with zero copy-pasteable production code.</span></li>
-          <li class="flex items-start gap-3"><span class="text-red-400 font-bold">✕</span> <span>Getting blindsided in Senior Interviews by real-world traps like <strong>N+1 ORM queries</strong>, <strong>UUIDv4 B-Tree fragmentation</strong>, or <strong>CORS preflight</strong>.</span></li>
-          <li class="flex items-start gap-3"><span class="text-red-400 font-bold">✕</span> <span>Getting hit with YouTube Content-ID copyright claims on your videos or paying <strong>$180+/year</strong> forever to music subscription platforms.</span></li>
+        <ul class="space-y-4 text-sm text-slate-300">
+          <li class="flex items-start gap-3">
+            <span class="text-red-400 font-bold text-base leading-tight">✕</span>
+            <span>Memorizing 600-page academic textbooks with zero copy-pasteable production code or runnable benchmark scripts.</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-red-400 font-bold text-base leading-tight">✕</span>
+            <span>Getting blindsided in Staff/Senior tech interviews by real-world traps like <strong>N+1 queries</strong>, <strong>UUIDv4 B-Tree fragmentation</strong>, or <strong>JWT in localStorage</strong>.</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-red-400 font-bold text-base leading-tight">✕</span>
+            <span>Paying <strong>$180+/year</strong> forever to music subscription platforms or getting hit with YouTube Content-ID claims on monetized videos.</span>
+          </li>
         </ul>
       </div>
 
       <!-- The MochaCat Way -->
-      <div class="rounded-2xl bg-emerald-950/15 border border-emerald-500/30 p-7 space-y-4">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 text-xs font-bold">
-          ✅ THE MOCHACAT WAY (INSTANT MASTERY & OWNERSHIP)
+      <div class="rounded-3xl bg-emerald-950/15 border border-emerald-500/30 p-6 sm:p-8 space-y-5">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-emerald-500/20 text-emerald-300 text-xs font-bold font-mono">
+          ✓ THE MOCHACAT VAULT WAY
         </div>
-        <ul class="space-y-3 text-sm text-slate-200">
-          <li class="flex items-start gap-3"><span class="text-emerald-400 font-bold">✓</span> <span>Absorb <strong>30 Senior System Design & Security Blueprints</strong> visually in 60 seconds each with side-by-side <code>[X] BUG</code> vs <code>[OK] FIX</code> code.</span></li>
-          <li class="flex items-start gap-3"><span class="text-emerald-400 font-bold">✓</span> <span>Run and customize all <strong>30 Production Python/SQL/Docker scripts</strong> + keep the <strong>18-Page PDF Playbook</strong> on your desktop.</span></li>
-          <li class="flex items-start gap-3"><span class="text-emerald-400 font-bold">✓</span> <span>Own <strong>50 Studio-Mastered Lo-Fi & City Pop Tracks</strong> + a signed <strong>DMCA-Safe Commercial License PDF</strong> for a single one-time payment.</span></li>
+        <ul class="space-y-4 text-sm text-slate-200">
+          <li class="flex items-start gap-3">
+            <span class="text-emerald-400 font-bold text-base leading-tight">✓</span>
+            <span>Absorb <strong>30 System Design & Security Blueprints</strong> visually in 60 seconds with side-by-side <code>[X] BUG</code> vs <code>[OK] FIX</code> code.</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-emerald-400 font-bold text-base leading-tight">✓</span>
+            <span>Run all <strong>30 Python/SQL scripts</strong> directly on your machine and keep the <strong>18-Page PDF Playbook</strong> on your desktop.</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-emerald-400 font-bold text-base leading-tight">✓</span>
+            <span>Own <strong>50 Studio-Mastered Lo-Fi Tracks</strong> forever with a signed <strong>DMCA-Safe Commercial License PDF</strong> for a single one-time payment.</span>
+          </li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- INTERACTIVE PLAYBOOK INSPECTOR (Inspired by ByteByteGo) -->
-  <section id="inside-playbook" class="max-w-7xl mx-auto px-6 py-14">
+  <!-- ============================================================== -->
+  <!-- 6. INTERACTIVE PLAYBOOK INSPECTOR                              -->
+  <!-- ============================================================== -->
+  <section id="inside-playbook" class="max-w-7xl mx-auto px-4 sm:px-6 py-16">
     <div class="text-center max-w-3xl mx-auto mb-10 space-y-3">
-      <span class="text-xs font-mono text-amber-400 uppercase tracking-widest">Interactive Architecture Preview</span>
-      <h2 class="text-3xl sm:text-4xl font-extrabold text-white">
+      <span class="text-xs font-mono text-amber-400 uppercase tracking-widest font-bold">Interactive Architecture Preview</span>
+      <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
         Look Inside the 30-Chapter Senior Playbook
       </h2>
       <p class="text-sm text-slate-400">
-        Click any chapter below to inspect the high-resolution Visual IDE Cheat Card and production takeaway included in the Playbook.
+        Click any chapter tab below to inspect the actual high-resolution visual cheat card and production rule included in the bundle.
       </p>
     </div>
 
-    <!-- Chapter Selector Pills -->
-    <div class="flex flex-wrap justify-center gap-2.5 mb-8">
-      <button onclick="selectBlueprint(0)" id="bp-btn-0" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-amber-400 text-slate-950 transition">
+    <!-- Chapter Selector Tabs (Scrollable on mobile) -->
+    <div class="flex overflow-x-auto pb-3 gap-2.5 sm:justify-center mb-8 scrollbar-none">
+      <button onclick="selectBlueprint(0)" id="bp-btn-0" class="flex-shrink-0 px-4 py-2.5 rounded-xl text-xs font-bold bg-amber-400 text-slate-950 transition">
         #01 • IEEE-754 Float Trap
       </button>
-      <button onclick="selectBlueprint(1)" id="bp-btn-1" class="px-4 py-2.5 rounded-xl text-xs font-bold glass-card text-slate-200 hover:bg-white/10 transition">
+      <button onclick="selectBlueprint(1)" id="bp-btn-1" class="flex-shrink-0 px-4 py-2.5 rounded-xl text-xs font-bold glass-card text-slate-200 hover:bg-white/10 transition">
         #11 • JWT XSS vs HttpOnly
       </button>
-      <button onclick="selectBlueprint(2)" id="bp-btn-2" class="px-4 py-2.5 rounded-xl text-xs font-bold glass-card text-slate-200 hover:bg-white/10 transition">
+      <button onclick="selectBlueprint(2)" id="bp-btn-2" class="flex-shrink-0 px-4 py-2.5 rounded-xl text-xs font-bold glass-card text-slate-200 hover:bg-white/10 transition">
         #18 • RAG Vector Search
       </button>
-      <button onclick="selectBlueprint(3)" id="bp-btn-3" class="px-4 py-2.5 rounded-xl text-xs font-bold glass-card text-slate-200 hover:bg-white/10 transition">
+      <button onclick="selectBlueprint(3)" id="bp-btn-3" class="flex-shrink-0 px-4 py-2.5 rounded-xl text-xs font-bold glass-card text-slate-200 hover:bg-white/10 transition">
         #20 • UUIDv4 vs UUIDv7 B-Trees
       </button>
-      <button onclick="selectBlueprint(4)" id="bp-btn-4" class="px-4 py-2.5 rounded-xl text-xs font-bold glass-card text-slate-200 hover:bg-white/10 transition">
+      <button onclick="selectBlueprint(4)" id="bp-btn-4" class="flex-shrink-0 px-4 py-2.5 rounded-xl text-xs font-bold glass-card text-slate-200 hover:bg-white/10 transition">
         #30 • Linux Zero-Copy sendfile()
       </button>
     </div>
 
-    <!-- Blueprint Display Box -->
-    <div class="glass-card rounded-3xl p-6 lg:p-8 border border-white/15 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-      <div class="lg:col-span-7">
-        <img id="bp-img" src="assets/card_01_float.jpg" alt="Blueprint Preview" class="w-full rounded-2xl border border-white/15 shadow-2xl" />
+    <!-- Blueprint Showcase Box -->
+    <div class="glass-card rounded-3xl p-5 sm:p-8 border border-white/15 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      
+      <!-- Card Image Preview with Zoom capability -->
+      <div class="lg:col-span-7 relative group">
+        <div class="overflow-hidden rounded-2xl border border-white/15 shadow-2xl bg-[#090d16]">
+          <img id="bp-img" src="assets/card_01_float.jpg" alt="Blueprint Architecture Card" 
+               class="w-full h-auto object-cover transform group-hover:scale-[1.02] transition duration-300 cursor-pointer" onclick="openImageModal(this.src)" />
+        </div>
+        <div class="absolute bottom-3 right-3 px-2.5 py-1 rounded-lg bg-black/70 backdrop-blur-md text-[11px] font-mono text-slate-300 pointer-events-none">
+          🔍 Click to inspect (1280×720)
+        </div>
       </div>
+
+      <!-- Description & Senior Takeaway -->
       <div class="lg:col-span-5 space-y-5">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-amber-400/15 text-amber-300 font-mono text-xs font-bold" id="bp-tag">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-amber-400/15 text-amber-300 font-mono text-xs font-bold" id="bp-tag">
           CHAPTER #01 OF 30 • IEEE 754 FLOATING POINT
         </div>
-        <h3 id="bp-title" class="text-2xl font-extrabold text-white">
+        <h3 id="bp-title" class="text-xl sm:text-2xl font-extrabold text-white leading-tight">
           Why 0.1 + 0.2 = 0.30000000000000004 💥
         </h3>
         <p id="bp-desc" class="text-sm text-slate-300 leading-relaxed">
-          In binary floating-point (IEEE 754), 0.1 is an infinite repeating fraction just like 1/3 in base 10. Comparing floats with <code>==</code> silently fails in payment pipelines.
+          In binary floating-point (IEEE 754), 0.1 is an infinite repeating fraction just like 1/3 in base 10. Comparing floats with <code>==</code> silently fails in financial pipelines and currency conversions.
         </p>
-        <div class="p-4 rounded-xl bg-emerald-950/30 border border-emerald-500/30 space-y-1">
-          <div class="text-xs font-mono text-emerald-400 uppercase font-bold">Senior Production Rule:</div>
+
+        <!-- Senior Rule Callout -->
+        <div class="p-4 rounded-2xl bg-emerald-950/30 border border-emerald-500/35 space-y-1.5">
+          <div class="text-[11px] font-mono text-emerald-400 uppercase font-bold tracking-wider">Senior Production Rule:</div>
           <div id="bp-rule" class="text-sm font-semibold text-white">
-            Never store money in IEEE-754 floats. Store integer cents (BIGINT) or exact Decimal types.
+            Never store money in IEEE-754 floats. Store integer cents (BIGINT) or exact Decimal types in your database schema.
           </div>
         </div>
-        <div class="pt-2">
-          <a href="#pricing" class="inline-flex items-center gap-2 text-xs font-extrabold text-amber-300 hover:text-amber-200 underline">
-            Get all 30 High-Res Cards + 18-Page PDF Book + 30 Code Scripts →
+
+        <div class="pt-2 flex items-center justify-between">
+          <a href="#pricing" class="inline-flex items-center gap-1.5 text-xs font-extrabold text-amber-300 hover:text-amber-200 underline">
+            <span>Get all 30 High-Res Cards + 18-Page PDF Playbook</span>
+            <span aria-hidden="true">&rarr;</span>
           </a>
         </div>
       </div>
+
     </div>
   </section>
 
-  <!-- 50-TRACK STUDIO AUDIO DECK -->
-  <section id="audio-deck" class="max-w-7xl mx-auto px-6 py-14">
+  <!-- ============================================================== -->
+  <!-- 7. 50-TRACK STUDIO AUDIO DECK (Custom Players)                 -->
+  <!-- ============================================================== -->
+  <section id="audio-deck" class="max-w-7xl mx-auto px-4 sm:px-6 py-16">
     <div class="text-center max-w-3xl mx-auto mb-10 space-y-3">
-      <span class="text-xs font-mono text-emerald-400 uppercase tracking-widest">100% DMCA-Safe • Mastered to -14 LUFS</span>
-      <h2 class="text-3xl sm:text-4xl font-extrabold text-white">
-        Listen to the 50-Track Creator Lo-Fi & City Pop Vault
+      <span class="text-xs font-mono text-emerald-400 uppercase tracking-widest font-bold">100% Original Synthesized • -14 LUFS Broadcast Master</span>
+      <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+        Listen to the 50-Track Creator Audio Deck
       </h2>
       <p class="text-sm text-slate-400">
-        Every track is 100% original synthesized instrumentation by MochaCat Studio. Zero samples from third-party records — meaning <strong>zero copyright claims forever</strong> on YouTube, Twitch, TikTok & Reels.
+        Every track is synthesized from scratch by MochaCat Studio with zero third-party samples. You get perpetual rights with <strong>zero Content-ID claims forever</strong>.
       </p>
     </div>
 
+    <!-- 4 Track Cards Grid with Custom Play Controls -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-      <!-- Track 1 -->
-      <div class="glass-card rounded-2xl p-5 flex items-center gap-4 hover:border-amber-400/40 transition">
-        <img src="assets/art_bossa.png" alt="Bossa Nova Cat" class="w-20 h-20 rounded-xl object-cover border border-white/15 flex-shrink-0" />
-        <div class="flex-1 min-w-0 space-y-1.5">
+      
+      <!-- Track 1: Bossa Nova -->
+      <div class="glass-card glass-card-hover rounded-3xl p-4 sm:p-5 flex items-center gap-4 border border-white/10" id="card-track-1">
+        <img src="assets/art_bossa.png" alt="Copacabana Whiskers" class="w-18 h-18 sm:w-20 sm:h-20 rounded-2xl object-cover border border-white/15 flex-shrink-0" />
+        <div class="flex-1 min-w-0 space-y-2">
           <div class="flex items-center justify-between text-xs font-mono">
             <span class="text-amber-300 font-bold">🌴 BOSSA NOVA CAFE</span>
             <span class="text-slate-400">78 BPM • Key F</span>
           </div>
-          <div class="text-base font-bold text-white truncate">01. Copacabana Whiskers (Sunny Rhodes)</div>
-          <audio controls preload="none" class="w-full h-8" src="assets/preview_01_bossa.mp3"></audio>
+          <div class="text-sm sm:text-base font-bold text-white truncate">01. Copacabana Whiskers</div>
+          <div class="flex items-center gap-3">
+            <button onclick="playDeckTrack(1, 'assets/preview_01_bossa.mp3')" class="deck-play-btn w-9 h-9 rounded-full bg-amber-400 hover:bg-amber-300 text-slate-950 flex items-center justify-center flex-shrink-0 transition" id="deck-btn-1">
+              <svg class="w-4 h-4 fill-current ml-0.5 icon-play" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              <svg class="w-4 h-4 fill-current icon-pause hidden" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+            </button>
+            <div class="flex-1">
+              <div class="w-full bg-white/10 rounded-full h-1.5 cursor-pointer relative" onclick="seekDeckTrack(1, event)">
+                <div class="bg-amber-400 h-1.5 rounded-full w-0" id="deck-progress-1"></div>
+              </div>
+              <div class="flex justify-between text-[10px] font-mono text-slate-400 mt-1">
+                <span id="deck-time-1">0:00</span>
+                <span>0:30 Preview</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Track 2 -->
-      <div class="glass-card rounded-2xl p-5 flex items-center gap-4 hover:border-amber-400/40 transition">
-        <img src="assets/art_shibuya.png" alt="Shibuya Sunset" class="w-20 h-20 rounded-xl object-cover border border-white/15 flex-shrink-0" />
-        <div class="flex-1 min-w-0 space-y-1.5">
+      <!-- Track 2: City Pop -->
+      <div class="glass-card glass-card-hover rounded-3xl p-4 sm:p-5 flex items-center gap-4 border border-white/10" id="card-track-2">
+        <img src="assets/art_shibuya.png" alt="Scramble Crossing" class="w-18 h-18 sm:w-20 sm:h-20 rounded-2xl object-cover border border-white/15 flex-shrink-0" />
+        <div class="flex-1 min-w-0 space-y-2">
           <div class="flex items-center justify-between text-xs font-mono">
             <span class="text-pink-400 font-bold">🌇 80s JAPANESE CITY POP</span>
             <span class="text-slate-400">85 BPM • Key D</span>
           </div>
-          <div class="text-base font-bold text-white truncate">02. Scramble Crossing (Tokyo Synth)</div>
-          <audio controls preload="none" class="w-full h-8" src="assets/preview_02_citypop.mp3"></audio>
+          <div class="text-sm sm:text-base font-bold text-white truncate">02. Scramble Crossing</div>
+          <div class="flex items-center gap-3">
+            <button onclick="playDeckTrack(2, 'assets/preview_02_citypop.mp3')" class="deck-play-btn w-9 h-9 rounded-full bg-pink-400 hover:bg-pink-300 text-slate-950 flex items-center justify-center flex-shrink-0 transition" id="deck-btn-2">
+              <svg class="w-4 h-4 fill-current ml-0.5 icon-play" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              <svg class="w-4 h-4 fill-current icon-pause hidden" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+            </button>
+            <div class="flex-1">
+              <div class="w-full bg-white/10 rounded-full h-1.5 cursor-pointer relative" onclick="seekDeckTrack(2, event)">
+                <div class="bg-pink-400 h-1.5 rounded-full w-0" id="deck-progress-2"></div>
+              </div>
+              <div class="flex justify-between text-[10px] font-mono text-slate-400 mt-1">
+                <span id="deck-time-2">0:00</span>
+                <span>0:30 Preview</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Track 3 -->
-      <div class="glass-card rounded-2xl p-5 flex items-center gap-4 hover:border-amber-400/40 transition">
-        <img src="assets/art_coding.png" alt="Midnight Coder" class="w-20 h-20 rounded-xl object-cover border border-white/15 flex-shrink-0" />
-        <div class="flex-1 min-w-0 space-y-1.5">
+      <!-- Track 3: Deep Coding Synth -->
+      <div class="glass-card glass-card-hover rounded-3xl p-4 sm:p-5 flex items-center gap-4 border border-white/10" id="card-track-3">
+        <img src="assets/art_coding.png" alt="Midnight Coder" class="w-18 h-18 sm:w-20 sm:h-20 rounded-2xl object-cover border border-white/15 flex-shrink-0" />
+        <div class="flex-1 min-w-0 space-y-2">
           <div class="flex items-center justify-between text-xs font-mono">
-            <span class="text-blue-400 font-bold">💻 DEEP CODING FLOW</span>
+            <span class="text-cyan-400 font-bold">💻 DEEP CODING FLOW</span>
             <span class="text-slate-400">80 BPM • Key Dm</span>
           </div>
-          <div class="text-base font-bold text-white truncate">03. Midnight Coder (Analog Jazzhop)</div>
-          <audio controls preload="none" class="w-full h-8" src="assets/preview_03_coding.mp3"></audio>
+          <div class="text-sm sm:text-base font-bold text-white truncate">03. Midnight Coder</div>
+          <div class="flex items-center gap-3">
+            <button onclick="playDeckTrack(3, 'assets/preview_03_coding.mp3')" class="deck-play-btn w-9 h-9 rounded-full bg-cyan-400 hover:bg-cyan-300 text-slate-950 flex items-center justify-center flex-shrink-0 transition" id="deck-btn-3">
+              <svg class="w-4 h-4 fill-current ml-0.5 icon-play" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              <svg class="w-4 h-4 fill-current icon-pause hidden" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+            </button>
+            <div class="flex-1">
+              <div class="w-full bg-white/10 rounded-full h-1.5 cursor-pointer relative" onclick="seekDeckTrack(3, event)">
+                <div class="bg-cyan-400 h-1.5 rounded-full w-0" id="deck-progress-3"></div>
+              </div>
+              <div class="flex justify-between text-[10px] font-mono text-slate-400 mt-1">
+                <span id="deck-time-3">0:00</span>
+                <span>0:30 Preview</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Track 4 -->
-      <div class="glass-card rounded-2xl p-5 flex items-center gap-4 hover:border-amber-400/40 transition">
-        <img src="assets/art_sleep.png" alt="2AM Laundromat" class="w-20 h-20 rounded-xl object-cover border border-white/15 flex-shrink-0" />
-        <div class="flex-1 min-w-0 space-y-1.5">
+      <!-- Track 4: 2AM Sleep Lofi -->
+      <div class="glass-card glass-card-hover rounded-3xl p-4 sm:p-5 flex items-center gap-4 border border-white/10" id="card-track-4">
+        <img src="assets/art_sleep.png" alt="Spin Cycle Dreams" class="w-18 h-18 sm:w-20 sm:h-20 rounded-2xl object-cover border border-white/15 flex-shrink-0" />
+        <div class="flex-1 min-w-0 space-y-2">
           <div class="flex items-center justify-between text-xs font-mono">
             <span class="text-purple-400 font-bold">🌙 2AM LATE NIGHT SLEEP</span>
             <span class="text-slate-400">68 BPM • Key Ab</span>
           </div>
-          <div class="text-base font-bold text-white truncate">04. Spin Cycle Dreams (Low-Pass Vinyl)</div>
-          <audio controls preload="none" class="w-full h-8" src="assets/preview_04_sleep.mp3"></audio>
+          <div class="text-sm sm:text-base font-bold text-white truncate">04. Spin Cycle Dreams</div>
+          <div class="flex items-center gap-3">
+            <button onclick="playDeckTrack(4, 'assets/preview_04_sleep.mp3')" class="deck-play-btn w-9 h-9 rounded-full bg-purple-400 hover:bg-purple-300 text-slate-950 flex items-center justify-center flex-shrink-0 transition" id="deck-btn-4">
+              <svg class="w-4 h-4 fill-current ml-0.5 icon-play" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              <svg class="w-4 h-4 fill-current icon-pause hidden" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+            </button>
+            <div class="flex-1">
+              <div class="w-full bg-white/10 rounded-full h-1.5 cursor-pointer relative" onclick="seekDeckTrack(4, event)">
+                <div class="bg-purple-400 h-1.5 rounded-full w-0" id="deck-progress-4"></div>
+              </div>
+              <div class="flex justify-between text-[10px] font-mono text-slate-400 mt-1">
+                <span id="deck-time-4">0:00</span>
+                <span>0:30 Preview</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+
     </div>
   </section>
 
-  <!-- BENTO GRID: WHAT'S INSIDE THE DOWNLOAD -->
-  <section id="whats-included" class="max-w-7xl mx-auto px-6 py-14">
-    <div class="text-center max-w-3xl mx-auto mb-10 space-y-3">
-      <span class="text-xs font-mono text-amber-400 uppercase tracking-widest">Complete Deliverables Breakdown</span>
-      <h2 class="text-3xl sm:text-4xl font-extrabold text-white">
+  <!-- ============================================================== -->
+  <!-- 8. WHAT'S IN THE BUNDLE: BENTO GRID                            -->
+  <!-- ============================================================== -->
+  <section id="whats-included" class="max-w-7xl mx-auto px-4 sm:px-6 py-16">
+    <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
+      <span class="text-xs font-mono text-amber-400 uppercase tracking-widest font-bold">Complete Deliverables Breakdown</span>
+      <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
         Everything Packed Inside the Pro Bundle
       </h2>
+      <p class="text-sm text-slate-400">
+        A single 485 MB ZIP download containing production blueprints, executable scripts, and mastered audio.
+      </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-      <div class="glass-card rounded-2xl p-6 space-y-2">
-        <div class="text-2xl">📘</div>
-        <div class="text-xs font-mono text-amber-300">PDF + MARKDOWN BOOK</div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      
+      <!-- Bento 1 -->
+      <div class="glass-card glass-card-hover rounded-3xl p-6 sm:p-7 space-y-3 border border-white/10 relative overflow-hidden">
+        <div class="w-12 h-12 rounded-2xl bg-amber-400/15 border border-amber-400/30 flex items-center justify-center text-xl">
+          📘
+        </div>
+        <div class="text-xs font-mono text-amber-300 font-bold uppercase tracking-wider">PDF + MARKDOWN BOOK</div>
         <h3 class="text-lg font-bold text-white">18-Page Senior System Design Playbook</h3>
-        <p class="text-xs text-slate-300 leading-relaxed">Complete Latency Reference Table + 30 deep-dive chapters covering SQL, Caching, Security, Concurrency, K8s, RAG & OS Internals.</p>
+        <p class="text-xs text-slate-300 leading-relaxed">
+          Complete Latency Reference Table + 30 deep-dive chapters covering SQL Concurrency, Caching, Auth, K8s, RAG, and OS Internals.
+        </p>
       </div>
-      <div class="glass-card rounded-2xl p-6 space-y-2">
-        <div class="text-2xl">⚡</div>
-        <div class="text-xs font-mono text-emerald-300">30 PRODUCTION CODE FILES</div>
-        <h3 class="text-lg font-bold text-white">30 Runnable Code Templates (<code>.py</code>)</h3>
-        <p class="text-xs text-slate-300 leading-relaxed">Every chapter's <code>[X] JUNIOR BUG</code> and <code>[OK] SENIOR FIX</code> ready to run, benchmark, and paste into your own backend services.</p>
+
+      <!-- Bento 2 -->
+      <div class="glass-card glass-card-hover rounded-3xl p-6 sm:p-7 space-y-3 border border-white/10 relative overflow-hidden">
+        <div class="w-12 h-12 rounded-2xl bg-emerald-400/15 border border-emerald-400/30 flex items-center justify-center text-xl">
+          ⚡
+        </div>
+        <div class="text-xs font-mono text-emerald-300 font-bold uppercase tracking-wider">30 RUNNABLE SCRIPTS (.PY)</div>
+        <h3 class="text-lg font-bold text-white">30 Executable Code Templates</h3>
+        <p class="text-xs text-slate-300 leading-relaxed">
+          Every chapter's <code>[X] JUNIOR BUG</code> and <code>[OK] SENIOR FIX</code> ready to execute, benchmark, and drop directly into your backend services.
+        </p>
       </div>
-      <div class="glass-card rounded-2xl p-6 space-y-2">
-        <div class="text-2xl">🖼️</div>
-        <div class="text-xs font-mono text-blue-300">1280×720 HD FLASHCARDS</div>
+
+      <!-- Bento 3 -->
+      <div class="glass-card glass-card-hover rounded-3xl p-6 sm:p-7 space-y-3 border border-white/10 relative overflow-hidden">
+        <div class="w-12 h-12 rounded-2xl bg-cyan-400/15 border border-cyan-400/30 flex items-center justify-center text-xl">
+          🖼️
+        </div>
+        <div class="text-xs font-mono text-cyan-300 font-bold uppercase tracking-wider">1280×720 HD FLASHCARDS</div>
         <h3 class="text-lg font-bold text-white">30 Visual IDE Cheat Cards</h3>
-        <p class="text-xs text-slate-300 leading-relaxed">High-contrast One Dark Pro visual flashcards for 5-minute pre-interview review on desktop, tablet, or phone.</p>
+        <p class="text-xs text-slate-300 leading-relaxed">
+          High-contrast One Dark Pro visual flashcards for 5-minute pre-interview review on desktop, tablet, or phone.
+        </p>
       </div>
-      <div class="glass-card rounded-2xl p-6 space-y-2">
-        <div class="text-2xl">🎵</div>
-        <div class="text-xs font-mono text-purple-300">STUDIO MASTERED (-14 LUFS)</div>
+
+      <!-- Bento 4 -->
+      <div class="glass-card glass-card-hover rounded-3xl p-6 sm:p-7 space-y-3 border border-white/10 relative overflow-hidden">
+        <div class="w-12 h-12 rounded-2xl bg-purple-400/15 border border-purple-400/30 flex items-center justify-center text-xl">
+          🎵
+        </div>
+        <div class="text-xs font-mono text-purple-300 font-bold uppercase tracking-wider">STUDIO MASTERED (-14 LUFS)</div>
         <h3 class="text-lg font-bold text-white">50 Full-Length 320kbps MP3 Tracks</h3>
-        <p class="text-xs text-slate-300 leading-relaxed">Over 80 minutes of original Bossa Nova, Matcha Cafe, Shibuya City Pop, Bakery Jazzhop & 2AM Chillhop tracks.</p>
+        <p class="text-xs text-slate-300 leading-relaxed">
+          Over 80 minutes of original Bossa Nova Cafe, 80s Shibuya City Pop, Midnight Coding Synth & 2AM Sleep Lofi.
+        </p>
       </div>
-      <div class="glass-card rounded-2xl p-6 space-y-2">
-        <div class="text-2xl">🎨</div>
-        <div class="text-xs font-mono text-pink-300">20 HAND-PAINTED ARTWORKS</div>
-        <h3 class="text-lg font-bold text-white">20 Desktop Wallpapers (<code>1920×1080</code>)</h3>
-        <p class="text-xs text-slate-300 leading-relaxed">All 20 signature MochaCat episodes (<code>apple cat.</code> through <code>ocean breeze.</code>) in full 1080p PNG resolution.</p>
+
+      <!-- Bento 5 -->
+      <div class="glass-card glass-card-hover rounded-3xl p-6 sm:p-7 space-y-3 border border-white/10 relative overflow-hidden">
+        <div class="w-12 h-12 rounded-2xl bg-pink-400/15 border border-pink-400/30 flex items-center justify-center text-xl">
+          🎨
+        </div>
+        <div class="text-xs font-mono text-pink-300 font-bold uppercase tracking-wider">20 HAND-PAINTED ARTWORKS</div>
+        <h3 class="text-lg font-bold text-white">20 Desktop Wallpapers (1920×1080)</h3>
+        <p class="text-xs text-slate-300 leading-relaxed">
+          All 20 signature MochaCat episodes in pristine full 1080p resolution for clean dual-monitor workstation aesthetics.
+        </p>
       </div>
-      <div class="glass-card rounded-2xl p-6 space-y-2">
-        <div class="text-2xl">📜</div>
-        <div class="text-xs font-mono text-amber-300">MONETIZATION CLEARED</div>
-        <h3 class="text-lg font-bold text-white">Signed DMCA-Safe Commercial License</h3>
-        <p class="text-xs text-slate-300 leading-relaxed">Official PDF certificate granting perpetual worldwide rights for monetized YouTube videos, Shorts, Twitch & client projects.</p>
+
+      <!-- Bento 6 -->
+      <div class="glass-card glass-card-hover rounded-3xl p-6 sm:p-7 space-y-3 border border-white/10 relative overflow-hidden">
+        <div class="w-12 h-12 rounded-2xl bg-amber-400/15 border border-amber-400/30 flex items-center justify-center text-xl">
+          📜
+        </div>
+        <div class="text-xs font-mono text-amber-300 font-bold uppercase tracking-wider">COMMERCIAL SYNC RIGHTS</div>
+        <h3 class="text-lg font-bold text-white">Signed DMCA-Safe License (PDF)</h3>
+        <p class="text-xs text-slate-300 leading-relaxed">
+          Official certificate granting perpetual worldwide commercial synchronization rights with zero Content-ID claims.
+        </p>
       </div>
+
     </div>
   </section>
 
-  <!-- HIGH-CONVERTING PRICING SECTION (Clean Typography, Zero Cramped Duplicate Text!) -->
-  <section id="pricing" class="max-w-7xl mx-auto px-6 py-16">
+  <!-- ============================================================== -->
+  <!-- 9. PRICING SECTION (Clean, High-Converting 3-Tier Grid)        -->
+  <!-- ============================================================== -->
+  <section id="pricing" class="max-w-7xl mx-auto px-4 sm:px-6 py-16">
     <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
-      <span class="text-xs font-mono text-amber-400 uppercase tracking-widest">Simple One-Time Pricing • Instant Access</span>
-      <h2 class="text-3xl sm:text-5xl font-extrabold text-white">
+      <span class="text-xs font-mono text-amber-400 uppercase tracking-widest font-bold">Simple One-Time Pricing • Lifetime Access</span>
+      <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
         Choose Your Vault & Start Building
       </h2>
       <p class="text-sm text-slate-400">
-        Pay once, own forever. Instant checkout via International Card / PayPal (USD) or Direct Transfer in Colombia (Bancolombia / Nequi).
+        Pay once, own forever. International Card / PayPal via Gumroad or direct Bancolombia / Nequi transfer (Colombia).
       </p>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
 
-      <!-- Tier 1: Playbook ($19) -->
-      <div class="glass-card rounded-3xl p-7 flex flex-col justify-between hover:border-white/25 transition">
+      <!-- TIER 1: The Playbook ($19) -->
+      <div class="glass-card rounded-3xl p-6 sm:p-8 flex flex-col justify-between hover:border-white/20 transition">
         <div class="space-y-5">
           <div class="flex items-center gap-4">
-            <img src="assets/art_playbook.jpg" alt="Playbook Art" class="w-16 h-16 rounded-2xl object-cover border border-white/15" />
+            <img src="assets/art_playbook.jpg" alt="Playbook" class="w-14 h-14 rounded-2xl object-cover border border-white/15" />
             <div>
-              <span class="px-2.5 py-0.5 rounded-md bg-blue-500/20 text-blue-300 font-mono text-xs font-bold">DEVELOPER EDITION</span>
-              <h3 class="text-xl font-extrabold text-white mt-1">Senior System Design Playbook</h3>
+              <span class="px-2.5 py-0.5 rounded-md bg-blue-500/20 text-blue-300 font-mono text-[11px] font-bold">DEVELOPER EDITION</span>
+              <h3 class="text-lg sm:text-xl font-extrabold text-white mt-1">System Design Playbook</h3>
             </div>
           </div>
 
           <div class="flex items-baseline gap-2 pt-2 border-t border-white/10">
-            <span class="text-4xl font-extrabold text-white">$19</span>
-            <span class="text-xs text-slate-400">USD • one-time payment (~$79.000 COP)</span>
+            <span class="text-4xl font-extrabold text-white font-mono">$19</span>
+            <span class="text-xs text-slate-400">USD • one-time (~$79.000 COP)</span>
           </div>
 
           <p class="text-xs text-slate-300 leading-relaxed">
-            Perfect for software engineers preparing for Senior/Staff interviews or leveling up backend & system design architecture.
+            Essential for backend engineers preparing for Senior/Staff interviews or building reliable distributed architectures.
           </p>
 
           <ul class="space-y-3 text-xs text-slate-200 pt-2">
-            <li class="flex items-start gap-2.5"><span class="text-emerald-400 font-bold">✓</span> <span><strong>18-Page Senior System Design Playbook</strong> (PDF + Markdown)</span></li>
-            <li class="flex items-start gap-2.5"><span class="text-emerald-400 font-bold">✓</span> <span><strong>30 Runnable Production Scripts (<code>.py</code>)</strong> with <code>[X] BUG</code> vs <code>[OK] FIX</code></span></li>
-            <li class="flex items-start gap-2.5"><span class="text-emerald-400 font-bold">✓</span> <span><strong>30 HD Visual IDE Cheat Cards</strong> (<code>1280×720</code> JPG)</span></li>
-            <li class="flex items-start gap-2.5"><span class="text-emerald-400 font-bold">✓</span> <span><strong>Production Latency & Scale Cheat Table</strong></span></li>
+            <li class="flex items-start gap-2.5"><span class="text-emerald-400 font-bold">✓</span> <span><strong>18-Page Senior System Design Playbook</strong> (PDF + MD)</span></li>
+            <li class="flex items-start gap-2.5"><span class="text-emerald-400 font-bold">✓</span> <span><strong>30 Runnable Production Scripts (<code>.py</code>)</strong></span></li>
+            <li class="flex items-start gap-2.5"><span class="text-emerald-400 font-bold">✓</span> <span><strong>30 HD Visual IDE Cheat Cards</strong> (1280×720 JPG)</span></li>
+            <li class="flex items-start gap-2.5"><span class="text-emerald-400 font-bold">✓</span> <span><strong>System Design Latency & Scale Cheat Table</strong></span></li>
           </ul>
         </div>
 
-        <div class="pt-7">
-          <button onclick="openCheckout('Senior System Design & Code Playbook (2026)', 19, 79000, 'Product_1_Senior_System_Design_Playbook_v2026.zip', 'https://gabbler407.gumroad.com/l/yhfgla')" class="w-full py-4 rounded-2xl font-bold text-sm bg-white/10 hover:bg-white/20 text-white border border-white/15 transition">
-            Get Playbook — $19 USD →
+        <div class="pt-8">
+          <button onclick="openCheckout('Senior System Design & Code Playbook (2026)', 19, 79000, 'Product_1_Senior_System_Design_Playbook_v2026.zip', 'https://gabbler407.gumroad.com/l/yhfgla')" 
+                  class="w-full py-3.5 rounded-2xl font-bold text-sm bg-white/10 hover:bg-white/20 text-white border border-white/15 transition flex items-center justify-center gap-2">
+            <span>Get Playbook — $19 USD</span>
+            <span aria-hidden="true">&rarr;</span>
           </button>
         </div>
       </div>
 
-      <!-- Tier 3 (CENTER HERO): Complete Pro Bundle ($29) -->
-      <div class="rounded-3xl bg-gradient-to-b from-[#161c2e] to-[#0e1320] border-2 border-amber-400 p-7 flex flex-col justify-between gold-border-glow relative transform lg:-translate-y-3">
-        <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-amber-400 text-slate-950 font-extrabold text-xs tracking-wider uppercase shadow-lg">
-          ★ BEST VALUE • SAVE $14 (ALL-IN-ONE)
+      <!-- TIER 2 (HERO): Complete Code & Chill Pro Bundle ($29) -->
+      <div class="rounded-3xl bg-gradient-to-b from-[#141b2c] via-[#0d1322] to-[#0a0e19] border-2 border-amber-400 p-6 sm:p-8 flex flex-col justify-between bundle-glow relative lg:-translate-y-3 shadow-2xl">
+        
+        <!-- Ribbon -->
+        <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-amber-400 to-yellow-400 text-slate-950 font-extrabold text-xs tracking-wider uppercase shadow-lg whitespace-nowrap">
+          ★ BEST VALUE • SAVE $14 (68% OFF)
         </div>
 
-        <div class="space-y-5 pt-2">
+        <div class="space-y-5 pt-3">
           <div class="flex items-center gap-4">
-            <img src="assets/art_bundle.jpg" alt="Complete Bundle Art" class="w-16 h-16 rounded-2xl object-cover border-2 border-amber-400" />
+            <img src="assets/art_bundle.jpg" alt="Complete Bundle" class="w-14 h-14 rounded-2xl object-cover border-2 border-amber-400" />
             <div>
-              <span class="px-2.5 py-0.5 rounded-md bg-amber-400/20 text-amber-300 font-mono text-xs font-bold">COMPLETE VAULT</span>
-              <h3 class="text-xl font-extrabold text-white mt-1">Code & Chill Pro Bundle</h3>
+              <span class="px-2.5 py-0.5 rounded-md bg-amber-400/20 text-amber-300 font-mono text-[11px] font-bold">ALL-IN-ONE VAULT</span>
+              <h3 class="text-lg sm:text-xl font-extrabold text-white mt-1">Code & Chill Pro Bundle</h3>
             </div>
           </div>
 
           <div class="flex items-baseline gap-2 pt-2 border-t border-white/10">
-            <span class="text-lg line-through text-slate-500 font-bold">$43</span>
-            <span class="text-5xl font-extrabold text-amber-400">$29</span>
+            <span class="text-base line-through text-slate-500 font-bold">$43</span>
+            <span class="text-4xl sm:text-5xl font-extrabold text-amber-400 font-mono">$29</span>
             <span class="text-xs text-slate-300">USD • one-time (~$119.000 COP)</span>
           </div>
 
-          <p class="text-xs text-slate-200 leading-relaxed">
-            For just $10 more than the Playbook alone, unlock <strong>100% of our engineering & audio catalog</strong>: all 30 System Design Blueprints + all 50 DMCA-Safe Lo-Fi Tracks.
+          <p class="text-xs text-slate-200 leading-relaxed font-medium">
+            For just $10 more than the Playbook alone, unlock <strong>100% of our engineering and audio catalog</strong>. Everything in one unified download.
           </p>
 
           <ul class="space-y-3 text-xs text-white pt-2">
-            <li class="flex items-start gap-2.5"><span class="text-amber-400 font-bold">★</span> <span><strong>Everything in the Senior Playbook ($19 value):</strong> 18-Page PDF/MD Book + 30 Runnable Scripts + 30 HD Cheat Cards</span></li>
-            <li class="flex items-start gap-2.5"><span class="text-amber-400 font-bold">★</span> <span><strong>Everything in the Creator Lo-Fi Vault ($24 value):</strong> 50 Mastered 320kbps MP3 Tracks (-14 LUFS)</span></li>
-            <li class="flex items-start gap-2.5"><span class="text-amber-400 font-bold">★</span> <span><strong>20 Hand-Painted MochaCat 1080p Desktop Wallpapers</strong></span></li>
+            <li class="flex items-start gap-2.5"><span class="text-amber-400 font-bold">★</span> <span><strong>Everything in Playbook:</strong> 18-Page PDF + 30 Scripts + 30 Cards ($19 val)</span></li>
+            <li class="flex items-start gap-2.5"><span class="text-amber-400 font-bold">★</span> <span><strong>Everything in Lo-Fi Vault:</strong> 50 Mastered Tracks (-14 LUFS) ($24 val)</span></li>
+            <li class="flex items-start gap-2.5"><span class="text-amber-400 font-bold">★</span> <span><strong>20 MochaCat 1080p Desktop Wallpapers</strong></span></li>
             <li class="flex items-start gap-2.5"><span class="text-amber-400 font-bold">★</span> <span><strong>Perpetual DMCA-Safe Commercial License Certificate (PDF)</strong></span></li>
-            <li class="flex items-start gap-2.5"><span class="text-amber-400 font-bold">★</span> <span><strong>Lifetime Access to Future Season Releases</strong></span></li>
+            <li class="flex items-start gap-2.5"><span class="text-amber-400 font-bold">★</span> <span><strong>Lifetime Free Updates & Future Season Additions</strong></span></li>
           </ul>
         </div>
 
-        <div class="pt-7">
-          <button onclick="openCheckout('Complete Code & Chill Pro Bundle (Playbook + 50 Tracks)', 29, 119000, 'Product_3_Complete_Code_And_Chill_Pro_Bundle.zip', 'https://gabbler407.gumroad.com/l/vwfhp')" class="w-full py-4 rounded-2xl font-extrabold text-sm bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-400 text-slate-950 hover:brightness-105 transition shadow-xl shadow-amber-500/25">
-            ★ Get Complete Pro Bundle — $29 USD →
+        <div class="pt-8">
+          <button onclick="openCheckout('Complete Code & Chill Pro Bundle (Playbook + 50 Tracks)', 29, 119000, 'Product_3_Complete_Code_And_Chill_Pro_Bundle.zip', 'https://gabbler407.gumroad.com/l/vwfhp')" 
+                  class="w-full py-4 rounded-2xl font-extrabold text-sm bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-400 text-slate-950 hover:brightness-105 shadow-xl shadow-amber-500/25 transition flex items-center justify-center gap-2">
+            <span>★ Get Complete Pro Bundle — $29 USD</span>
+            <span aria-hidden="true">&rarr;</span>
           </button>
         </div>
       </div>
 
-      <!-- Tier 2: Creator Lo-Fi Vault ($24) -->
-      <div class="glass-card rounded-3xl p-7 flex flex-col justify-between hover:border-white/25 transition">
+      <!-- TIER 3: The Audio Vault ($24) -->
+      <div class="glass-card rounded-3xl p-6 sm:p-8 flex flex-col justify-between hover:border-white/20 transition">
         <div class="space-y-5">
           <div class="flex items-center gap-4">
-            <img src="assets/art_vault.jpg" alt="Creator Vault Art" class="w-16 h-16 rounded-2xl object-cover border border-white/15" />
+            <img src="assets/art_vault.jpg" alt="Creator Vault" class="w-14 h-14 rounded-2xl object-cover border border-white/15" />
             <div>
-              <span class="px-2.5 py-0.5 rounded-md bg-purple-500/20 text-purple-300 font-mono text-xs font-bold">CREATOR EDITION</span>
-              <h3 class="text-xl font-extrabold text-white mt-1">50-Track Royalty-Free Vault</h3>
+              <span class="px-2.5 py-0.5 rounded-md bg-purple-500/20 text-purple-300 font-mono text-[11px] font-bold">CREATOR EDITION</span>
+              <h3 class="text-lg sm:text-xl font-extrabold text-white mt-1">50-Track Royalty-Free Vault</h3>
             </div>
           </div>
 
           <div class="flex items-baseline gap-2 pt-2 border-t border-white/10">
-            <span class="text-4xl font-extrabold text-white">$24</span>
-            <span class="text-xs text-slate-400">USD • one-time payment (~$99.000 COP)</span>
+            <span class="text-4xl font-extrabold text-white font-mono">$24</span>
+            <span class="text-xs text-slate-400">USD • one-time (~$99.000 COP)</span>
           </div>
 
           <p class="text-xs text-slate-300 leading-relaxed">
-            Built for YouTubers, Twitch streamers, podcasters, indie game devs, and deep-focus listeners who want 50 offline studio tracks.
+            Tailored for YouTubers, streamers, podcasters, and deep-focus listeners needing offline broadcast-quality music.
           </p>
 
           <ul class="space-y-3 text-xs text-slate-200 pt-2">
-            <li class="flex items-start gap-2.5"><span class="text-emerald-400 font-bold">✓</span> <span><strong>50 Full-Length Studio Tracks</strong> (320kbps MP3, mastered to -14 LUFS)</span></li>
-            <li class="flex items-start gap-2.5"><span class="text-emerald-400 font-bold">✓</span> <span><strong>Signed DMCA-Safe Commercial License PDF</strong> for monetized channels</span></li>
-            <li class="flex items-start gap-2.5"><span class="text-emerald-400 font-bold">✓</span> <span><strong>20 Cozy Black Cat Wallpapers</strong> (<code>1920×1080</code> PNG)</span></li>
-            <li class="flex items-start gap-2.5"><span class="text-emerald-400 font-bold">✓</span> <span><strong>4 Genres Included:</strong> Bossa Nova, City Pop, Coding Synth & 2AM Sleep</span></li>
+            <li class="flex items-start gap-2.5"><span class="text-emerald-400 font-bold">✓</span> <span><strong>50 Full-Length Studio Tracks</strong> (320kbps MP3, -14 LUFS)</span></li>
+            <li class="flex items-start gap-2.5"><span class="text-emerald-400 font-bold">✓</span> <span><strong>Signed DMCA-Safe Commercial License PDF</strong></span></li>
+            <li class="flex items-start gap-2.5"><span class="text-emerald-400 font-bold">✓</span> <span><strong>20 High-Res Cozy Black Cat Wallpapers (1080p)</strong></span></li>
+            <li class="flex items-start gap-2.5"><span class="text-emerald-400 font-bold">✓</span> <span><strong>4 Genres:</strong> Bossa Nova, City Pop, Synth & 2AM Sleep</span></li>
           </ul>
         </div>
 
-        <div class="pt-7">
-          <button onclick="openCheckout('MochaCat 50 Royalty-Free Lo-Fi & City Pop Creator Vault', 24, 99000, 'Product_2_MochaCat_Royalty_Free_Lofi_Vault_50_Tracks.zip', 'https://gabbler407.gumroad.com/l/iwxzap')" class="w-full py-4 rounded-2xl font-bold text-sm bg-white/10 hover:bg-white/20 text-white border border-white/15 transition">
-            Get Creator Vault — $24 USD →
+        <div class="pt-8">
+          <button onclick="openCheckout('MochaCat 50 Royalty-Free Lo-Fi & City Pop Creator Vault', 24, 99000, 'Product_2_MochaCat_Royalty_Free_Lofi_Vault_50_Tracks.zip', 'https://gabbler407.gumroad.com/l/iwxzap')" 
+                  class="w-full py-3.5 rounded-2xl font-bold text-sm bg-white/10 hover:bg-white/20 text-white border border-white/15 transition flex items-center justify-center gap-2">
+            <span>Get Creator Vault — $24 USD</span>
+            <span aria-hidden="true">&rarr;</span>
           </button>
         </div>
       </div>
@@ -524,79 +955,125 @@ if bal >= 100:  # 2 simultaneous requests both read $100!
     </div>
   </section>
 
-  <!-- FREE STARTER PACK LEAD MAGNET -->
-  <section id="free-starter" class="max-w-5xl mx-auto px-6 py-10">
-    <div class="rounded-3xl bg-gradient-to-br from-emerald-950/50 via-[#0f1420] to-[#0f1420] border border-emerald-500/40 p-8 md:p-10">
+  <!-- ============================================================== -->
+  <!-- 10. FREE STARTER PACK LEAD MAGNET                              -->
+  <!-- ============================================================== -->
+  <section id="free-starter" class="max-w-5xl mx-auto px-4 sm:px-6 py-12">
+    <div class="rounded-3xl bg-gradient-to-br from-emerald-950/40 via-[#0e1424] to-[#07090e] border border-emerald-500/30 p-6 sm:p-10 shadow-2xl">
       <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+        
         <div class="md:col-span-8 space-y-4">
-          <span class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-mono font-bold">
-            🎁 FREE SAMPLE PACK • 19 MB INSTANT DOWNLOAD
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-mono font-bold">
+            <span>🎁</span> FREE SAMPLE PACK • 19 MB INSTANT DOWNLOAD
           </span>
-          <h2 class="text-2xl sm:text-3xl font-extrabold text-white">
-            Want to Test the Quality First? Grab the Free Starter Pack
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            Want to test the quality first? Grab the Free Starter Pack
           </h2>
           <p class="text-sm text-slate-300 leading-relaxed">
-            Get <strong>5 High-Res Visual System Design Cards (#01–#05)</strong> + <strong>5 Full-Length 320kbps Royalty-Free Lo-Fi Tracks</strong> + the <strong>DMCA-Safe License PDF</strong> sent immediately.
+            Get <strong>5 High-Res Visual System Design Cards (#01–#05)</strong> + <strong>5 Full-Length 320kbps Royalty-Free Lo-Fi Tracks</strong> + the official <strong>DMCA-Safe Commercial License PDF</strong> delivered immediately.
           </p>
-          <form onsubmit="handleFreeDownload(event)" class="flex flex-col sm:flex-row gap-3 pt-1">
-            <input type="email" id="lead-email" required placeholder="Enter your email for instant ZIP download..." class="flex-1 px-4 py-3.5 rounded-xl bg-slate-950/90 border border-white/15 text-sm text-white focus:outline-none focus:border-emerald-400" />
-            <button type="submit" class="px-6 py-3.5 rounded-xl font-extrabold text-sm bg-emerald-400 hover:bg-emerald-300 text-slate-950 transition whitespace-nowrap">
+
+          <form onsubmit="handleFreeDownload(event)" class="flex flex-col sm:flex-row gap-3 pt-2">
+            <input type="email" id="lead-email" required placeholder="Enter your email for instant ZIP..." 
+                   class="flex-1 px-4 py-3.5 rounded-xl bg-slate-950/80 border border-white/15 text-sm text-white focus:outline-none focus:border-emerald-400 transition" />
+            <button type="submit" class="px-6 py-3.5 rounded-xl font-extrabold text-sm bg-emerald-400 hover:bg-emerald-300 text-slate-950 transition whitespace-nowrap shadow-lg shadow-emerald-500/20">
               ⬇️ Download Free Starter Pack
             </button>
           </form>
-          <p id="free-dl-msg" class="text-xs text-emerald-300 font-mono hidden"></p>
+
+          <p id="free-dl-msg" class="text-xs text-emerald-300 font-mono hidden pt-1"></p>
         </div>
-        <div class="md:col-span-4 bg-slate-950/60 border border-white/10 rounded-2xl p-5 space-y-2 text-xs font-mono text-slate-300">
-          <div class="text-emerald-400 font-bold mb-1">📦 Product_0_FREE_Starter.zip:</div>
+
+        <div class="md:col-span-4 bg-slate-950/70 border border-white/10 rounded-2xl p-5 space-y-2 text-xs font-mono text-slate-300">
+          <div class="text-emerald-400 font-bold mb-1">📦 What's Inside Free ZIP:</div>
           <div>• 5x HD System Design Cards</div>
           <div>• 5x 320kbps Mastered MP3s</div>
-          <div>• DMCA-Safe License PDF</div>
-          <div>• Size: 19.0 MB (Instant CDN)</div>
+          <div>• DMCA-Safe License Certificate</div>
+          <div>• Size: 19.0 MB (High-Speed CDN)</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================== -->
+  <!-- 11. FAQ ACCORDION                                              -->
+  <!-- ============================================================== -->
+  <section id="faq" class="max-w-4xl mx-auto px-4 sm:px-6 py-14 space-y-8">
+    <div class="text-center space-y-2">
+      <span class="text-xs font-mono text-amber-400 uppercase tracking-widest font-bold">Frequently Asked Questions</span>
+      <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">Got Questions? We've Got Answers</h2>
+    </div>
+
+    <div class="space-y-3">
+      
+      <!-- FAQ 1 -->
+      <div class="glass-card rounded-2xl overflow-hidden border border-white/10">
+        <button onclick="toggleFaq(1)" class="w-full p-5 text-left flex items-center justify-between font-bold text-sm text-white hover:text-amber-300 transition">
+          <span>1. Can I use the 50 Lo-Fi & City Pop tracks in monetized YouTube videos, Shorts & Twitch?</span>
+          <span id="faq-icon-1" class="text-amber-400 text-lg transition-transform duration-200">+</span>
+        </button>
+        <div id="faq-ans-1" class="px-5 pb-5 text-xs text-slate-300 leading-relaxed hidden">
+          Yes! 100% of the tracks were synthesized from scratch in MochaCat Studio. Your download includes a signed <code>COMMERCIAL_ROYALTY_FREE_LICENSE.pdf</code> granting perpetual worldwide commercial synchronization rights with zero Content-ID or DMCA claims.
         </div>
       </div>
+
+      <!-- FAQ 2 -->
+      <div class="glass-card rounded-2xl overflow-hidden border border-white/10">
+        <button onclick="toggleFaq(2)" class="w-full p-5 text-left flex items-center justify-between font-bold text-sm text-white hover:text-amber-300 transition">
+          <span>2. What format do the 30 System Design Blueprints come in?</span>
+          <span id="faq-icon-2" class="text-amber-400 text-lg transition-transform duration-200">+</span>
+        </button>
+        <div id="faq-ans-2" class="px-5 pb-5 text-xs text-slate-300 leading-relaxed hidden">
+          You receive three formats inside the ZIP: (1) The 18-page <code>Senior_System_Design_Playbook_MochaCat.pdf</code> & <code>.md</code> book, (2) 30 standalone runnable <code>.py</code> code files showing the naive Junior Bug vs. Senior Production Fix, and (3) 30 high-resolution <code>1280×720</code> JPG flashcards.
+        </div>
+      </div>
+
+      <!-- FAQ 3 -->
+      <div class="glass-card rounded-2xl overflow-hidden border border-white/10">
+        <button onclick="toggleFaq(3)" class="w-full p-5 text-left flex items-center justify-between font-bold text-sm text-white hover:text-amber-300 transition">
+          <span>3. How do I pay and receive the download?</span>
+          <span id="faq-icon-3" class="text-amber-400 text-lg transition-transform duration-200">+</span>
+        </button>
+        <div id="faq-ans-3" class="px-5 pb-5 text-xs text-slate-300 leading-relaxed hidden">
+          Click any package above to pay securely via International Card / PayPal (USD via Gumroad) or direct Bancolombia / Nequi transfer (Colombia). As soon as your order is confirmed, your full ZIP package downloads directly from our high-speed release CDN.
+        </div>
+      </div>
+
+      <!-- FAQ 4 -->
+      <div class="glass-card rounded-2xl overflow-hidden border border-white/10">
+        <button onclick="toggleFaq(4)" class="w-full p-5 text-left flex items-center justify-between font-bold text-sm text-white hover:text-amber-300 transition">
+          <span>4. Are updates to the Playbook included?</span>
+          <span id="faq-icon-4" class="text-amber-400 text-lg transition-transform duration-200">+</span>
+        </button>
+        <div id="faq-ans-4" class="px-5 pb-5 text-xs text-slate-300 leading-relaxed hidden">
+          Yes! All future revisions of the Playbook and new code recipes added in subsequent seasons will be delivered free of charge to your registered email.
+        </div>
+      </div>
+
     </div>
   </section>
 
-  <!-- FAQ SECTION -->
-  <section id="faq" class="max-w-4xl mx-auto px-6 py-14 space-y-8">
-    <div class="text-center space-y-2">
-      <span class="text-xs font-mono text-amber-400 uppercase tracking-widest">Got Questions?</span>
-      <h2 class="text-3xl font-extrabold text-white">Frequently Asked Questions</h2>
-    </div>
-    <div class="space-y-4">
-      <div class="glass-card rounded-2xl p-6 space-y-2">
-        <h3 class="text-sm font-bold text-white">1. Can I use the 50 Lo-Fi & City Pop tracks in monetized YouTube videos, Shorts, and Twitch streams?</h3>
-        <p class="text-xs text-slate-300 leading-relaxed">Yes! 100% of the tracks were synthesized from scratch in MochaCat Studio. Your download includes a signed <code>COMMERCIAL_ROYALTY_FREE_LICENSE.pdf</code> granting perpetual worldwide commercial synchronization rights with zero Content-ID or DMCA claims.</p>
-      </div>
-      <div class="glass-card rounded-2xl p-6 space-y-2">
-        <h3 class="text-sm font-bold text-white">2. What format do the 30 System Design Blueprints come in?</h3>
-        <p class="text-xs text-slate-300 leading-relaxed">You receive three formats inside the ZIP: (1) The 18-page <code>Senior_System_Design_Playbook_MochaCat.pdf</code> & <code>.md</code> book, (2) 30 standalone runnable <code>.py</code> code files showing the naive Junior Bug vs. Senior Production Fix, and (3) 30 high-resolution <code>1280×720</code> JPG flashcards.</p>
-      </div>
-      <div class="glass-card rounded-2xl p-6 space-y-2">
-        <h3 class="text-sm font-bold text-white">3. How do I pay and receive the download?</h3>
-        <p class="text-xs text-slate-300 leading-relaxed">Click any package above to pay securely via International Card / PayPal (USD) or direct Bancolombia / Nequi transfer (Colombia). As soon as your order is confirmed, your full ZIP package downloads directly from our high-speed release CDN.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- DUAL-REGION CHECKOUT MODAL (International Card/Gumroad + Bancolombia Directo 08100042607) -->
-  <div id="checkout-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 z-50">
-    <div class="bg-[#111624] border border-amber-400/40 rounded-3xl max-w-xl w-full p-6 sm:p-8 space-y-5 relative shadow-2xl">
-      <button onclick="closeCheckout()" class="absolute top-5 right-5 text-slate-400 hover:text-white text-xl font-bold">✕</button>
+  <!-- ============================================================== -->
+  <!-- 12. DUAL-REGION CHECKOUT MODAL                                 -->
+  <!-- ============================================================== -->
+  <div id="checkout-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 z-50 transition-opacity">
+    <div class="bg-[#0f1422] border border-amber-400/40 rounded-3xl max-w-xl w-full p-6 sm:p-8 space-y-5 relative shadow-2xl max-h-[90vh] overflow-y-auto">
+      <button onclick="closeCheckout()" class="absolute top-5 right-5 text-slate-400 hover:text-white text-xl font-bold p-1" aria-label="Close modal">✕</button>
 
       <div class="space-y-1">
         <span class="text-xs font-mono text-amber-400 uppercase font-bold">🔒 Secure Instant Checkout & Delivery</span>
         <h3 id="modal-title" class="text-xl font-extrabold text-white">Complete Code & Chill Pro Bundle</h3>
         <div class="flex items-baseline gap-3">
-          <span id="modal-price" class="text-3xl font-extrabold text-emerald-400">$29 USD</span>
+          <span id="modal-price" class="text-3xl font-extrabold text-emerald-400 font-mono">$29 USD</span>
           <span id="modal-cop" class="text-xs font-mono text-slate-400">(o $119.000 COP en Colombia)</span>
         </div>
       </div>
 
-      <!-- Payment Method Switcher -->
+      <!-- Payment Method Switcher Tabs -->
       <div class="grid grid-cols-2 gap-2 p-1 rounded-xl bg-slate-950 border border-white/10 text-xs font-bold">
         <button onclick="switchPayMethod('intl')" id="pay-tab-intl" class="py-2.5 rounded-lg bg-amber-400 text-slate-950 transition">
-          🌎 Card / Apple Pay / PayPal
+          🌎 International Card / PayPal
         </button>
         <button onclick="switchPayMethod('col')" id="pay-tab-col" class="py-2.5 rounded-lg text-slate-300 hover:text-white transition">
           🇨🇴 Bancolombia / Nequi (0% Fee)
@@ -610,33 +1087,33 @@ if bal >= 100:  # 2 simultaneous requests both read $100!
         </p>
         <form onsubmit="completeOrder(event, 'International')" class="space-y-3">
           <input type="email" id="buyer-email-intl" required placeholder="your@email.com (for receipt & lifetime updates)" class="w-full px-4 py-3.5 rounded-xl bg-slate-950 border border-white/15 text-sm text-white focus:outline-none focus:border-amber-400" />
-          <button type="submit" class="w-full py-4 rounded-xl font-extrabold text-sm bg-gradient-to-r from-amber-400 to-yellow-400 text-slate-950 hover:brightness-105 transition shadow-lg">
-            ⚡ Continue to Instant Download & Checkout →
+          <button type="submit" class="w-full py-3.5 rounded-xl font-extrabold text-sm bg-gradient-to-r from-amber-400 to-yellow-400 text-slate-950 hover:brightness-105 transition shadow-lg">
+            ⚡ Continue to Instant Download & Checkout &rarr;
           </button>
         </form>
       </div>
 
-      <!-- Method 2: Direct Bancolombia Ahorros 08100042607 (TuringTec / Jairo Niño) -->
+      <!-- Method 2: Direct Bancolombia Ahorros 08100042607 -->
       <div id="pay-box-col" class="hidden space-y-4">
         <div class="p-4 rounded-2xl bg-slate-950 border border-emerald-500/30 space-y-2.5 text-xs">
           <div class="flex items-center justify-between">
-            <span class="font-bold text-emerald-400 uppercase font-mono">🏦 Transferencia Directa Bancolombia (QR / App / Nequi)</span>
+            <span class="font-bold text-emerald-400 uppercase font-mono">🏦 Transferencia Bancolombia (App / QR / Nequi)</span>
             <button type="button" onclick="navigator.clipboard.writeText('08100042607'); this.innerText='✅ Copiada!';" class="px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300 font-mono font-bold hover:bg-emerald-500/30">
               Copiar Cuenta
             </button>
           </div>
           <div class="grid grid-cols-2 gap-2 pt-1 text-slate-200">
             <div><span class="text-slate-400">Banco:</span> <strong>Bancolombia</strong></div>
-            <div><span class="text-slate-400">Tipo:</span> <strong>Cuenta de Ahorros</strong></div>
+            <div><span class="text-slate-400">Tipo:</span> <strong>Ahorros</strong></div>
             <div><span class="text-slate-400">Número:</span> <strong class="font-mono text-amber-300 text-sm">08100042607</strong></div>
-            <div><span class="text-slate-400">Valor COP:</span> <strong id="col-amount" class="text-emerald-300">$119.000 COP</strong></div>
+            <div><span class="text-slate-400">Valor COP:</span> <strong id="col-amount" class="text-emerald-300 font-mono">$119.000 COP</strong></div>
           </div>
         </div>
         <form onsubmit="completeOrder(event, 'Bancolombia_08100042607')" class="space-y-3">
           <input type="email" id="buyer-email-col" required placeholder="Tu correo electrónico para enviarte la licencia..." class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-white/15 text-sm text-white" />
-          <input type="text" id="buyer-ref-col" required placeholder="Número de comprobante / últimos 4 dígitos de transferencia..." class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-white/15 text-sm text-white" />
+          <input type="text" id="buyer-ref-col" required placeholder="Número de comprobante o últimos 4 dígitos..." class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-white/15 text-sm text-white" />
           <button type="submit" class="w-full py-3.5 rounded-xl font-extrabold text-sm bg-emerald-400 hover:bg-emerald-300 text-slate-950 transition">
-            ✅ Ya transferí a Bancolombia 08100042607 — Descargar Pack →
+            ✅ Ya transferí a Bancolombia 08100042607 — Descargar &rarr;
           </button>
         </form>
       </div>
@@ -645,48 +1122,222 @@ if bal >= 100:  # 2 simultaneous requests both read $100!
 
       <div class="pt-2 border-t border-white/10 flex items-center justify-between text-xs text-slate-400">
         <span>🔒 100% DMCA-Safe Guarantee</span>
-        <span>⚡ Global CDN Instant ZIP</span>
+        <span>⚡ Global High-Speed CDN ZIP</span>
       </div>
     </div>
   </div>
 
-  <footer class="max-w-7xl mx-auto px-6 py-12 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-    <div>© 2026 MochaCat Studio (<a href="https://www.youtube.com/@mochaloficat" target="_blank" class="underline hover:text-slate-300">@mochaloficat</a>) • TuringTec S.A.S.</div>
-    <div class="flex gap-4">
-      <a href="https://www.youtube.com/@mochaloficat" target="_blank" class="hover:text-slate-300">YouTube Channel (107 Videos)</a>
+  <!-- ============================================================== -->
+  <!-- 13. IMAGE LIGHTBOX ZOOM MODAL                                  -->
+  <!-- ============================================================== -->
+  <div id="image-modal" class="fixed inset-0 bg-black/90 backdrop-blur-lg hidden items-center justify-center p-4 z-50" onclick="closeImageModal()">
+    <div class="relative max-w-5xl w-full">
+      <button class="absolute -top-10 right-0 text-white text-2xl font-bold hover:text-amber-400">✕ Close</button>
+      <img id="image-modal-src" src="" alt="Enlarged Blueprint" class="w-full rounded-2xl border border-white/20 shadow-2xl" />
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- 14. FOOTER                                                     -->
+  <!-- ============================================================== -->
+  <footer class="max-w-7xl mx-auto px-4 sm:px-6 py-12 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+    <div>
+      © 2026 MochaCat Studio (<a href="https://www.youtube.com/@mochaloficat" target="_blank" rel="noopener noreferrer" class="underline hover:text-slate-300">@mochaloficat</a>) • TuringTec S.A.S.
+    </div>
+    <div class="flex items-center gap-4">
+      <a href="https://www.youtube.com/@mochaloficat" target="_blank" rel="noopener noreferrer" class="hover:text-slate-300 transition">YouTube Channel</a>
       <span>•</span>
-      <a href="https://github.com/gabhack/mochacat-store/releases/tag/v1.0.0" target="_blank" class="hover:text-slate-300">Release CDN v1.0.0</a>
+      <a href="https://github.com/gabhack/mochacat-store/releases/tag/v1.0.0" target="_blank" rel="noopener noreferrer" class="hover:text-slate-300 transition">Release CDN v1.0.0</a>
+      <span>•</span>
+      <a href="#faq" class="hover:text-slate-300 transition">FAQ</a>
     </div>
   </footer>
 
+  <!-- ============================================================== -->
+  <!-- 15. SCRIPTS (Interactive Logic, Custom Players, Blueprints)    -->
+  <!-- ============================================================== -->
   <script>
+    // --- Mobile Menu Toggle ---
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      const iconOpen = document.getElementById('menu-icon-open');
+      const iconClose = document.getElementById('menu-icon-close');
+      const isHidden = menu.classList.contains('hidden');
+      menu.classList.toggle('hidden', !isHidden);
+      iconOpen.classList.toggle('hidden', isHidden);
+      iconClose.classList.toggle('hidden', !isHidden);
+    }
+
+    // --- Hero Custom Audio Player ---
+    const heroAudio = document.getElementById('hero-audio');
+    const heroVinyl = document.getElementById('hero-vinyl');
+    const heroPlayIcon = document.getElementById('hero-play-icon');
+    const heroPauseIcon = document.getElementById('hero-pause-icon');
+    const heroProgress = document.getElementById('hero-progress');
+    const heroCurrTime = document.getElementById('hero-curr-time');
+    const heroDurTime = document.getElementById('hero-dur-time');
+    const heroWave = document.getElementById('hero-wave');
+
+    function toggleHeroPlay() {
+      // Pause any active deck tracks first
+      pauseAllDeckTracks();
+
+      if (heroAudio.paused) {
+        heroAudio.play();
+        heroVinyl.classList.remove('vinyl-paused');
+        heroPlayIcon.classList.add('hidden');
+        heroPauseIcon.classList.remove('hidden');
+        heroWave.classList.remove('opacity-40');
+      } else {
+        heroAudio.pause();
+        heroVinyl.classList.add('vinyl-paused');
+        heroPlayIcon.classList.remove('hidden');
+        heroPauseIcon.classList.add('hidden');
+        heroWave.classList.add('opacity-40');
+      }
+    }
+
+    heroAudio.addEventListener('timeupdate', () => {
+      if (heroAudio.duration) {
+        const pct = (heroAudio.currentTime / heroAudio.duration) * 100;
+        heroProgress.style.width = pct + '%';
+        heroCurrTime.innerText = formatTime(heroAudio.currentTime);
+        heroDurTime.innerText = formatTime(heroAudio.duration);
+      }
+    });
+
+    heroAudio.addEventListener('ended', () => {
+      heroVinyl.classList.add('vinyl-paused');
+      heroPlayIcon.classList.remove('hidden');
+      heroPauseIcon.classList.add('hidden');
+      heroProgress.style.width = '0%';
+      heroWave.classList.add('opacity-40');
+    });
+
+    function seekHeroAudio(e) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const pct = clickX / rect.width;
+      if (heroAudio.duration) {
+        heroAudio.currentTime = pct * heroAudio.duration;
+      }
+    }
+
+    function formatTime(sec) {
+      if (isNaN(sec)) return '0:00';
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return m + ':' + (s < 10 ? '0' : '') + s;
+    }
+
+    // --- Deck Audio Players (Single-active controller) ---
+    let currentDeckAudio = null;
+    let currentDeckTrackId = null;
+
+    function playDeckTrack(id, src) {
+      // Pause hero audio if playing
+      if (!heroAudio.paused) {
+        heroAudio.pause();
+        heroVinyl.classList.add('vinyl-paused');
+        heroPlayIcon.classList.remove('hidden');
+        heroPauseIcon.classList.add('hidden');
+        heroWave.classList.add('opacity-40');
+      }
+
+      if (currentDeckTrackId === id && currentDeckAudio && !currentDeckAudio.paused) {
+        // Pause current
+        currentDeckAudio.pause();
+        setDeckIcon(id, false);
+        return;
+      }
+
+      // If another track is playing, pause it
+      pauseAllDeckTracks();
+
+      // Create new audio or reuse
+      currentDeckTrackId = id;
+      currentDeckAudio = new Audio(src);
+      setDeckIcon(id, true);
+
+      currentDeckAudio.addEventListener('timeupdate', () => {
+        if (currentDeckAudio.duration) {
+          const pct = (currentDeckAudio.currentTime / currentDeckAudio.duration) * 100;
+          const prog = document.getElementById('deck-progress-' + id);
+          const time = document.getElementById('deck-time-' + id);
+          if (prog) prog.style.width = pct + '%';
+          if (time) time.innerText = formatTime(currentDeckAudio.currentTime);
+        }
+      });
+
+      currentDeckAudio.addEventListener('ended', () => {
+        setDeckIcon(id, false);
+        const prog = document.getElementById('deck-progress-' + id);
+        if (prog) prog.style.width = '0%';
+      });
+
+      currentDeckAudio.play();
+    }
+
+    function seekDeckTrack(id, e) {
+      if (currentDeckTrackId === id && currentDeckAudio && currentDeckAudio.duration) {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const pct = clickX / rect.width;
+        currentDeckAudio.currentTime = pct * currentDeckAudio.duration;
+      }
+    }
+
+    function setDeckIcon(id, isPlaying) {
+      const btn = document.getElementById('deck-btn-' + id);
+      if (!btn) return;
+      const playIcon = btn.querySelector('.icon-play');
+      const pauseIcon = btn.querySelector('.icon-pause');
+      if (isPlaying) {
+        playIcon.classList.add('hidden');
+        pauseIcon.classList.remove('hidden');
+      } else {
+        playIcon.classList.remove('hidden');
+        pauseIcon.classList.add('hidden');
+      }
+    }
+
+    function pauseAllDeckTracks() {
+      if (currentDeckAudio) {
+        currentDeckAudio.pause();
+      }
+      for (let i = 1; i <= 4; i++) {
+        setDeckIcon(i, false);
+      }
+    }
+
+    // --- Blueprints Data & Interactive Tabs ---
     const blueprints = [
       {
         src: "assets/card_01_float.jpg",
         tag: "CHAPTER #01 OF 30 • IEEE 754 FLOATING POINT",
         title: "Why 0.1 + 0.2 = 0.30000000000000004 💥",
-        desc: "In binary floating-point (IEEE 754), 0.1 is an infinite repeating fraction just like 1/3 in base 10. Comparing floats with == silently fails in payment pipelines.",
-        rule: "Never store money in IEEE-754 floats. Store integer cents (BIGINT) or exact Decimal types."
+        desc: "In binary floating-point (IEEE 754), 0.1 is an infinite repeating fraction just like 1/3 in base 10. Comparing floats with == silently fails in financial pipelines.",
+        rule: "Never store money in IEEE-754 floats. Store integer cents (BIGINT) or exact Decimal types in your database schema."
       },
       {
         src: "assets/card_11_jwt.jpg",
         tag: "CHAPTER #11 OF 30 • WEB SECURITY & AUTH",
         title: "Why Storing JWT in localStorage Gets You Hacked 🔓💥",
-        desc: "Any third-party npm script or XSS vulnerability on your page can read localStorage.getItem('token') in 1 line of JS and exfiltrate every active session.",
+        desc: "Any third-party script or XSS vulnerability on your page can read localStorage.getItem('token') in 1 line of JS and exfiltrate all active user sessions.",
         rule: "Store session tokens inside HttpOnly, Secure, SameSite=Strict cookies so JavaScript can never read them."
       },
       {
         src: "assets/card_18_rag.jpg",
         tag: "CHAPTER #18 OF 30 • AI ENGINEERING & VECTOR SEARCH",
         title: "How RAG Works Under the Hood in 8 Lines of Python 🧠⚡",
-        desc: "LLMs hallucinate private data because their weights are frozen. Retrieval-Augmented Generation embeds your docs into vectors and injects the top-k cosine matches into the prompt.",
+        desc: "LLMs hallucinate private company data because their weights are frozen. Retrieval-Augmented Generation embeds docs into vectors and injects the top-k cosine matches into the prompt.",
         rule: "Combine dense vector cosine similarity with BM25 keyword search (Hybrid RAG) for production accuracy."
       },
       {
         src: "assets/card_20_uuid.jpg",
         tag: "CHAPTER #20 OF 30 • DATABASE INTERNALS",
         title: "Why UUIDv4 Destroys SQL B-Tree Insert Speed 📉➡️📈",
-        desc: "Random UUIDv4 keys force PostgreSQL/MySQL to insert into random B-Tree leaf pages on disk, causing constant page splits and buffer cache thrashing.",
+        desc: "Random UUIDv4 keys force PostgreSQL/MySQL to insert into random B-Tree leaf pages on disk, causing constant page splits and buffer cache thrashing at scale.",
         rule: "Use timestamp-prefixed UUIDv7 so primary keys insert sequentially at the right edge of the B-Tree."
       },
       {
@@ -700,21 +1351,52 @@ if bal >= 100:  # 2 simultaneous requests both read $100!
 
     function selectBlueprint(idx) {
       const b = blueprints[idx];
-      document.getElementById('bp-img').src = b.src;
+      const img = document.getElementById('bp-img');
+      img.style.opacity = '0.5';
+      setTimeout(() => {
+        img.src = b.src;
+        img.style.opacity = '1';
+      }, 120);
+
       document.getElementById('bp-tag').innerText = b.tag;
       document.getElementById('bp-title').innerText = b.title;
       document.getElementById('bp-desc').innerText = b.desc;
       document.getElementById('bp-rule').innerText = b.rule;
+
       for (let i = 0; i < 5; i++) {
         const btn = document.getElementById('bp-btn-' + i);
         if (i === idx) {
-          btn.className = "px-4 py-2.5 rounded-xl text-xs font-bold bg-amber-400 text-slate-950 transition";
+          btn.className = "flex-shrink-0 px-4 py-2.5 rounded-xl text-xs font-bold bg-amber-400 text-slate-950 transition";
         } else {
-          btn.className = "px-4 py-2.5 rounded-xl text-xs font-bold glass-card text-slate-200 hover:bg-white/10 transition";
+          btn.className = "flex-shrink-0 px-4 py-2.5 rounded-xl text-xs font-bold glass-card text-slate-200 hover:bg-white/10 transition";
         }
       }
     }
 
+    // --- Image Modal Lightbox Zoom ---
+    function openImageModal(src) {
+      document.getElementById('image-modal-src').src = src;
+      const modal = document.getElementById('image-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeImageModal() {
+      const modal = document.getElementById('image-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    // --- FAQ Accordion ---
+    function toggleFaq(id) {
+      const ans = document.getElementById('faq-ans-' + id);
+      const icon = document.getElementById('faq-icon-' + id);
+      const isHidden = ans.classList.contains('hidden');
+      ans.classList.toggle('hidden', !isHidden);
+      icon.innerText = isHidden ? '−' : '+';
+    }
+
+    // --- Checkout & Lead Generation Logic ---
     const RELEASE_BASE = "https://github.com/gabhack/mochacat-store/releases/download/v1.0.0/";
     let selectedZip = "Product_3_Complete_Code_And_Chill_Pro_Bundle.zip";
     let selectedTitle = "";
@@ -732,7 +1414,7 @@ if bal >= 100:  # 2 simultaneous requests both read $100!
       } catch (_) {}
       const msg = document.getElementById('free-dl-msg');
       msg.classList.remove('hidden');
-      msg.innerHTML = "✓ Downloading Free Starter Pack! Don't forget to <a href='https://www.youtube.com/@mochaloficat?sub_confirmation=1' target='_blank' class='underline font-bold text-red-400'>Subscribe to @mochaloficat on YouTube →</a> or <a href='#pricing' class='underline font-bold text-amber-300'>Get the Complete Bundle ($29) →</a>";
+      msg.innerHTML = "✓ Downloading Free Starter Pack! Please <a href='https://www.youtube.com/@mochaloficat?sub_confirmation=1' target='_blank' class='underline font-bold text-red-400'>Subscribe to @mochaloficat on YouTube →</a> or <a href='#pricing' class='underline font-bold text-amber-300'>Get the Complete Bundle ($29) →</a>";
       window.open("https://www.youtube.com/@mochaloficat?sub_confirmation=1", "_blank");
       window.location.href = RELEASE_BASE + "Product_0_FREE_Starter_Pack_Lead_Magnet.zip";
     }
@@ -765,11 +1447,11 @@ if bal >= 100:  # 2 simultaneous requests both read $100!
       document.getElementById('pay-box-intl').classList.toggle('hidden', !isIntl);
       document.getElementById('pay-box-col').classList.toggle('hidden', isIntl);
       document.getElementById('pay-tab-intl').className = isIntl
-        ? "py-2.5 rounded-lg bg-amber-400 text-slate-950 transition"
-        : "py-2.5 rounded-lg text-slate-300 hover:text-white transition";
+        ? "py-2.5 rounded-lg bg-amber-400 text-slate-950 transition font-bold"
+        : "py-2.5 rounded-lg text-slate-300 hover:text-white transition font-bold";
       document.getElementById('pay-tab-col').className = !isIntl
-        ? "py-2.5 rounded-lg bg-emerald-400 text-slate-950 transition"
-        : "py-2.5 rounded-lg text-slate-300 hover:text-white transition";
+        ? "py-2.5 rounded-lg bg-emerald-400 text-slate-950 transition font-bold"
+        : "py-2.5 rounded-lg text-slate-300 hover:text-white transition font-bold";
     }
 
     function completeOrder(e, method) {
@@ -792,9 +1474,9 @@ if bal >= 100:  # 2 simultaneous requests both read $100!
       box.classList.remove('hidden');
       box.innerHTML = `
         <div class="font-bold text-emerald-300">✓ Order Ready (${method}) for ${email}!</div>
-        <p class="text-slate-200">Complete payment in the Gumroad tab (or via Bancolombia 08100042607) and download your complete package below:</p>
+        <p class="text-slate-200">Complete payment in the opened tab (or via Bancolombia 08100042607) and download your package below:</p>
         <div class="pt-2">
-          <a href="${RELEASE_BASE + selectedZip}" class="px-4 py-3 rounded-xl bg-emerald-400 text-slate-950 font-extrabold text-center block hover:bg-emerald-300 transition">
+          <a href="${RELEASE_BASE + selectedZip}" class="px-4 py-3 rounded-xl bg-emerald-400 text-slate-950 font-extrabold text-center block hover:bg-emerald-300 transition shadow-lg">
             ↓ Download ${selectedZip} Now
           </a>
         </div>
