@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MochaCat Live Benchmark Arena ⚡ | PostgreSQL, SQL & Python Visual Simulator</title>
+  <meta name="description" content="Interactive 60fps visual latency simulator for Software Engineers: PostgreSQL Full Scan vs B-Tree Index, Python List O(N) vs Set O(1), and SQL OFFSET vs Keyset Cursor + Deep Coding Lofi." />
+  <style>
+    :root {
+      --bg: #090d16;
+      --panel: #111827;
+      --border: #1f2937;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --red: #ef4444;
+      --green: #10b981;
+      --cyan: #38bdf8;
+      --gold: #facc15;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: radial-gradient(circle at top, #131c31 0%, var(--bg) 65%);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 24px 16px 64px;
+    }
+    .wrap { max-width: 1060px; margin: 0 auto; }
+    header {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+      gap: 16px; padding-bottom: 20px; border-bottom: 1px solid var(--border); margin-bottom: 24px;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--green); box-shadow: 0 0 12px var(--green); }
+    h1 { font-size: 1.45rem; letter-spacing: -0.02em; }
+    .sub { color: var(--muted); font-size: 0.92rem; margin-top: 2px; }
+    .cta-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px;
+      border-radius: 999px; font-weight: 700; font-size: 0.9rem; text-decoration: none;
+      cursor: pointer; border: none; transition: transform 0.15s ease;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-yt { background: #dc2626; color: #fff; }
+    .btn-pdf { background: #1e293b; color: var(--gold); border: 1px solid var(--gold); }
+    .tabs { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
+    .tab {
+      background: var(--panel); color: var(--muted); border: 1px solid var(--border);
+      padding: 10px 18px; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 0.92rem;
+    }
+    .tab.active { color: #0f172a; background: var(--gold); border-color: var(--gold); }
+    .grid-main { display: grid; grid-template-columns: 1.35fr 0.95fr; gap: 20px; }
+    @media (max-width: 860px) { .grid-main { grid-template-columns: 1fr; } }
+    .card {
+      background: rgba(17, 24, 39, 0.92); border: 1px solid var(--border);
+      border-radius: 18px; padding: 20px;
+    }
+    .arena-box {
+      border-radius: 14px; padding: 16px; margin-bottom: 14px; border: 2px solid;
+    }
+    .arena-slow { background: rgba(45, 14, 20, 0.72); border-color: #ef4444; }
+    .arena-fast { background: rgba(8, 38, 34, 0.78); border-color: #10b981; }
+    .row-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .timer { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 1.25rem; font-weight: 800; }
+    .cells { display: grid; grid-template-columns: repeat(16, 1fr); gap: 4px; margin: 10px 0; }
+    .cell { height: 18px; border-radius: 4px; background: #1f2937; transition: background 0.05s; }
+    .cell.scanned { background: #991b1b; }
+    .cell.head { background: var(--gold); box-shadow: 0 0 8px var(--gold); }
+    .hops { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 14px 0; }
+    .node {
+      flex: 1; text-align: center; padding: 10px 6px; border-radius: 10px;
+      font-family: ui-monospace, Menlo, monospace; font-size: 0.82rem; font-weight: 700;
+      background: #1e293b; border: 2px solid #475569; color: #cbd5e1;
+    }
+    .node.hit { background: #065f46; border-color: var(--gold); color: var(--gold); }
+    pre {
+      background: #0b1322; border: 1px solid #1e3a5f; border-radius: 12px;
+      padding: 14px; font-family: ui-monospace, Menlo, monospace; font-size: 0.86rem;
+      color: #6ee7b7; overflow-x: auto; margin-top: 12px;
+    }
+    .run-btn {
+      width: 100%; justify-content: center; background: linear-gradient(90deg, #10b981, #0ea5e9);
+      color: #06131f; font-size: 1rem; padding: 13px; margin-bottom: 14px;
+    }
+    iframe { width: 100%; aspect-ratio: 16 / 9; border-radius: 12px; border: 1px solid var(--border); margin-top: 10px; }
+    .badge-speed { color: var(--gold); font-weight: 800; font-size: 1.05rem; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="dot"></div>
+        <div>
+          <h1>MochaCat Live Benchmark Arena ⚡</h1>
+          <div class="sub">Visualizing O(N) Disasters vs O(log N) &amp; O(1) Production Fixes at 60 FPS</div>
+        </div>
+      </div>
+      <div class="cta-row">
+        <a class="btn btn-pdf" href="https://gabhack.github.io/mochacat-store/assets/MochaCat_25_SQL_Python_SystemDesign_Traps_2026.pdf" target="_blank" rel="noopener">🎁 Free 25 SQL &amp; Python Traps PDF</a>
+        <a class="btn btn-yt" href="https://www.youtube.com/channel/UCW6R0z_vBpQX0lqDLJOmslQ?sub_confirmation=1" target="_blank" rel="noopener">▶ Subscribe @mochaloficat</a>
+      </div>
+    </header>
+
+    <div class="tabs">
+      <button class="tab active" onclick="selectScenario(0)">🐘 PostgreSQL: Full Scan vs B-Tree (10M Rows)</button>
+      <button class="tab" onclick="selectScenario(1)">🐍 Python: List O(N) vs Set O(1) (1M IDs)</button>
+      <button class="tab" onclick="selectScenario(2)">🗄️ SQL Pagination: OFFSET 5M vs Keyset Cursor</button>
+    </div>
+
+    <div class="grid-main">
+      <div class="card">
+        <button class="btn run-btn" onclick="startRace()">⚡ RUN LIVE 60FPS BENCHMARK</button>
+
+        <div class="arena-box arena-slow">
+          <div class="row-top">
+            <strong id="slowTitle">🔴 WITHOUT INDEX (Seq Scan)</strong>
+            <span class="timer" id="slowTimer" style="color:#fca5a5;">0 ms</span>
+          </div>
+          <div class="cells" id="cellGrid"></div>
+          <div id="slowStatus" style="font-size:0.85rem;color:#fdba74;font-family:monospace;">Ready to scan 10,000,000 rows...</div>
+        </div>
+
+        <div class="arena-box arena-fast">
+          <div class="row-top">
+            <strong id="fastTitle">🟢 WITH B-TREE INDEX</strong>
+            <span class="timer" id="fastTimer" style="color:#6ee7b7;">0.07 ms ⚡</span>
+          </div>
+          <div class="hops">
+            <div class="node" id="hop0">ROOT</div>
+            <span>→</span>
+            <div class="node" id="hop1">BRANCH H..P</div>
+            <span>→</span>
+            <div class="node" id="hop2">LEAF M..N</div>
+            <span>→</span>
+            <div class="node" id="hop3">TARGET ROW!</div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span id="fastStatus" style="font-size:0.85rem;color:#a7f3d0;font-family:monospace;">3 page reads • Zero table lock</span>
+            <span class="badge-speed" id="speedBadge">69,140x FASTER!</span>
+          </div>
+        </div>
+
+        <pre id="fixCode">CREATE INDEX CONCURRENTLY idx_users_email
+ON users (email);</pre>
+      </div>
+
+      <div class="card">
+        <h2 style="font-size:1.15rem;margin-bottom:6px;">☕ Code &amp; Benchmark in Flow State</h2>
+        <p style="color:var(--muted);font-size:0.9rem;line-height:1.45;">
+          Put on our 100% DMCA-safe <strong>1-HOUR Rainy Midnight Coding Lofi for Software Engineers</strong> while testing queries &amp; reading the 25 Production Traps guide:
+        </p>
+        <iframe src="https://www.youtube.com/embed/5KT-PODR_2k" title="1-HOUR Rainy Midnight Coding & Cozy Coffee Lofi" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div style="margin-top:16px;padding:14px;border-radius:12px;background:#0f172a;border:1px solid var(--border);">
+          <div style="font-weight:700;color:var(--gold);margin-bottom:6px;">📘 Want all 30 Senior Architecture Blueprints?</div>
+          <p style="font-size:0.86rem;color:var(--muted);margin-bottom:10px;">Includes PostgreSQL MVCC internals, Redis stampede locks, Kafka idempotency &amp; K8s sizing.</p>
+          <a class="btn btn-pdf" style="width:100%;justify-content:center;" href="https://gabhack.github.io/mochacat-store/" target="_blank" rel="noopener">Explore MochaCat Senior Playbook →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const SCENARIOS = [
+      {
+        slowTitle: "🔴 WITHOUT INDEX (Seq Scan)",
+        fastTitle: "🟢 WITH B-TREE INDEX",
+        maxMs: 4840,
+        fastMs: "0.07 ms ⚡",
+        totalRows: 10000000,
+        hops: ["ROOT", "BRANCH H..P", "LEAF M..N", "ROW #8.4M!"],
+        speedBadge: "69,140x FASTER!",
+        code: "CREATE INDEX CONCURRENTLY idx_users_email\nON users (email);"
+      },
+      {
+        slowTitle: "🔴 PYTHON LIST: uid in users_list",
+        fastTitle: "🟢 PYTHON SET: uid in users_set",
+        maxMs: 86.4,
+        fastMs: "0.00004 ms ⚡",
+        totalRows: 1000000,
+        hops: ["hash(uid)", "MASK 0x2F", "BUCKET #742", "INSTANT O(1)!"],
+        speedBadge: "2,160,000x FASTER!",
+        code: "allowed_ids = set(raw_user_ids)  # Build once O(N)\nif uid in allowed_ids: ...       # Lookup in 40ns O(1)!"
+      },
+      {
+        slowTitle: "🔴 SQL LIMIT 20 OFFSET 5,000,000",
+        fastTitle: "🟢 KEYSET CURSOR (WHERE id < last)",
+        maxMs: 8920,
+        fastMs: "0.11 ms ⚡",
+        totalRows: 5000000,
+        hops: ["PK INDEX", "SEEK < 5M", "20 ROWS", "ZERO TRASHED!"],
+        speedBadge: "81,090x FASTER!",
+        code: "SELECT * FROM events WHERE id < :last_seen_id\nORDER BY id DESC LIMIT 20;"
+      }
+    ];
+
+    let curIdx = 0;
+    let animId = null;
+    const grid = document.getElementById("cellGrid");
+    for (let i = 0; i < 64; i++) {
+      const d = document.createElement("div");
+      d.className = "cell";
+      grid.appendChild(d);
+    }
+
+    function selectScenario(idx) {
+      curIdx = idx;
+      document.querySelectorAll(".tab").forEach((b, i) => b.classList.toggle("active", i === idx));
+      const s = SCENARIOS[idx];
+      document.getElementById("slowTitle").textContent = s.slowTitle;
+      document.getElementById("fastTitle").textContent = s.fastTitle;
+      document.getElementById("fastTimer").textContent = s.fastMs;
+      document.getElementById("speedBadge").textContent = s.speedBadge;
+      document.getElementById("fixCode").textContent = s.code;
+      s.hops.forEach((h, hi) => document.getElementById("hop" + hi).textContent = h);
+      startRace();
+    }
+
+    function startRace() {
+      if (animId) cancelAnimationFrame(animId);
+      const s = SCENARIOS[curIdx];
+      const cells = Array.from(grid.children);
+      cells.forEach(c => c.className = "cell");
+      [0,1,2,3].forEach(i => document.getElementById("hop" + i).classList.remove("hit"));
+      const t0 = performance.now();
+
+      function tick(now) {
+        const dt = (now - t0) / 1000;
+        const prog = Math.min(1, dt / 4.8);
+        [0,1,2,3].forEach(i => {
+          if (dt >= 0.15 + i * 0.22) document.getElementById("hop" + i).classList.add("hit");
+        });
+        const activeCell = Math.min(63, Math.floor(prog * 64));
+        cells.forEach((c, idx) => {
+          if (idx < activeCell) c.className = "cell scanned";
+          else if (idx === activeCell && prog < 1) c.className = "cell head";
+          else c.className = "cell";
+        });
+        const msVal = s.maxMs * prog;
+        document.getElementById("slowTimer").textContent = (s.maxMs >= 500 ? Math.round(msVal).toLocaleString() : msVal.toFixed(1)) + " ms";
+        const rowsScanned = Math.round(s.totalRows * prog).toLocaleString();
+        document.getElementById("slowStatus").textContent = prog < 1
+          ? `Scanning ${rowsScanned} / ${s.totalRows.toLocaleString()}... still running!`
+          : `Finished slow scan after ${rowsScanned} checks!`;
+        if (prog < 1) animId = requestAnimationFrame(tick);
+      }
+      animId = requestAnimationFrame(tick);
+    }
+
+    startRace();
+  </script>
+</body>
+</html>
