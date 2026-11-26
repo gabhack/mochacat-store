@@ -1,0 +1,14 @@
+# GattoDev × MochaCat — Senior SQL, Python & System Design Engineering Vault
+
+> Interactive 60-second production bug diagnostic quiz, live 60FPS SQL/Python benchmark arena, 50 billion-dollar bug postmortems ($7), 30 runnable System Design blueprints ($19), and 50 studio-mastered DMCA-safe coding lo-fi tracks.
+
+- Official Engineering & Creator Vault: https://gabhack.github.io/mochacat-store/
+- Interactive 60-Second Senior Production Bug Quiz: https://gabhack.github.io/mochacat-store/quiz.html
+- Live 60FPS PostgreSQL, SQL Cursor & Python Set Benchmark Arena: https://gabhack.github.io/mochacat-store/arena.html
+
+## Gumroad Digital Products
+- Free Senior SQL, Python & System Design Starter Pack ($0): https://gabbler407.gumroad.com/l/muyuv?price=0&wanted=true
+- GattoDev: 50 Billion-Dollar Production Bugs, SQL Disasters & Senior Fixes Deck ($7): https://gabbler407.gumroad.com/l/gattodev-bugs
+- Senior System Design & Code Playbook — 30 Blueprints + 30 Runnable .py Scripts ($19): https://gabbler407.gumroad.com/l/yhfgla
+- MochaCat 50 Royalty-Free Lo-Fi & City Pop Creator Vault — DMCA-Safe License ($24): https://gabbler407.gumroad.com/l/iwxzap
+- Complete Code & Chill Pro Bundle — 30 Blueprints + 50 Tracks ($29): https://gabbler407.gumroad.com/l/vwfhp

